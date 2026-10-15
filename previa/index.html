@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prévia do conceito · Jantar harmonizado no Kinoshita</title>
+<meta name="description" content="Prévia do conceito da landing page do jantar harmonizado Moët Hennessy no Kinoshita.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230c0b0a'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23c4282c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sumi: #0c0b0a; --sumi-2: #171410; --washi: #f4f0e8; --papel: #ebe4d8;
+    --champagne: #d9c39a; --ouro: #a8864f; --vermelho: #c4282c; --ameixa: #2a0c16;
+    --linha-clara: rgba(244, 240, 232, .18); --linha-escura: rgba(12, 11, 10, .16);
+    --texto-suave: #5f584e; --texto-suave-escuro: #b7ad9c;
+    --serifa: 'Cormorant Garamond', 'Times New Roman', serif;
+    --sans: 'Jost', 'Futura', system-ui, sans-serif;
+    --margem: clamp(16px, 5vw, 72px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--sumi); color: var(--washi); font: 300 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .rotulo { font: 400 11px/1.4 var(--sans); letter-spacing: .32em; text-transform: uppercase; }
+
+  /* Selo de prévia */
+  .selo { position: fixed; z-index: 20; top: 16px; right: 16px; padding: 8px 14px; border: 1px solid rgba(217,195,154,.45);
+    background: rgba(12,11,10,.72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--champagne); }
+  .selo b { font-weight: 500; color: var(--washi); }
+
+  /* Abertura */
+  .hero { position: relative; min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden;
+    background: radial-gradient(120% 70% at 50% 115%, rgba(168,134,79,.30), transparent 60%), radial-gradient(60% 50% at 85% 10%, rgba(42,12,22,.55), transparent 70%), var(--sumi); }
+  #perlage { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .moldura { position: absolute; inset: clamp(10px, 2.2vw, 28px); border: 1px solid rgba(217,195,154,.22); pointer-events: none; }
+  .lockup { position: relative; display: flex; align-items: center; justify-content: center; gap: clamp(14px, 3vw, 28px); padding: clamp(40px, 7vh, 72px) var(--margem) 0; }
+  .wm-mh { font: 500 clamp(19px, 2.2vw, 26px)/1 var(--serifa); letter-spacing: .01em; }
+  .lockup .fio { width: 1px; height: 28px; background: rgba(244,240,232,.4); }
+  .wm-kino { font: 400 clamp(11px, 1.1vw, 13px)/1 var(--sans); letter-spacing: .62em; margin-right: -.62em; display: inline-flex; align-items: center; }
+  .wm-kino i { width: 6px; height: 6px; border-radius: 50%; background: var(--vermelho); margin-left: .9em; display: inline-block; }
+  .hero-corpo { position: relative; align-self: center; text-align: center; padding: 48px var(--margem); max-width: 1100px; margin: 0 auto; }
+  .hero-corpo .rotulo { color: var(--champagne); }
+  h1 { font: 400 clamp(52px, 9.4vw, 136px)/.94 var(--serifa); letter-spacing: -.012em; margin: 26px 0 28px; }
+  h1 em { font-style: italic; color: var(--champagne); }
+  .sub { max-width: 620px; margin: 0 auto; font-size: clamp(16px, 1.4vw, 18px); color: #d8d0c2; }
+  .dados { display: flex; flex-wrap: wrap; justify-content: center; margin: 34px auto 38px; border-top: 1px solid var(--linha-clara); border-bottom: 1px solid var(--linha-clara); max-width: 760px; }
+  .dados span { padding: 14px clamp(14px, 2.4vw, 28px); font: 400 13px/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+  .dados span + span { border-left: 1px solid var(--linha-clara); }
+  .botao { display: inline-block; padding: 17px 34px; border: 1px solid var(--champagne); color: var(--washi); text-decoration: none;
+    font: 400 12px/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; transition: background .4s, color .4s; }
+  .botao:hover, .botao:focus-visible { background: var(--champagne); color: var(--sumi); }
+  :focus-visible { outline: 1px solid var(--champagne); outline-offset: 4px; }
+  .rolar { position: relative; text-align: center; padding: 0 0 clamp(28px, 5vh, 48px); font: italic 400 17px/1 var(--serifa); color: var(--texto-suave-escuro); }
+  .rolar::after { content: ''; display: block; width: 1px; height: 38px; margin: 14px auto 0; background: linear-gradient(var(--champagne), transparent); animation: desce 2.4s ease-in-out infinite; transform-origin: top; }
+  @keyframes desce { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* Seções */
+  section.bloco { padding: clamp(72px, 12vw, 150px) var(--margem); }
+  .claro { background: var(--washi); color: var(--sumi); }
+  .papel { background: var(--papel); color: var(--sumi); }
+  .escuro { background: var(--sumi-2); }
+  .cab { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 32px; align-items: end; margin-bottom: clamp(40px, 6vw, 72px); }
+  .cab .rotulo { color: var(--ouro); align-self: start; padding-top: 14px; }
+  .escuro .cab .rotulo { color: var(--champagne); }
+  h2 { font: 400 clamp(34px, 4.6vw, 64px)/1.04 var(--serifa); margin: 0; letter-spacing: -.005em; }
+  h2 em { font-style: italic; }
+  h3 { font: 500 clamp(24px, 2.2vw, 30px)/1.15 var(--serifa); margin: 18px 0 12px; }
+  .colunas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); }
+  .coluna { border-top: 1px solid var(--sumi); padding-top: 18px; }
+  .coluna p { margin: 0; color: var(--texto-suave); }
+  .coluna .rotulo { color: var(--ouro); }
+
+  .paleta { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+  .cor { border: 1px solid var(--linha-clara); }
+  .cor .amostra { aspect-ratio: 1 / 1.1; }
+  .cor div:last-child { padding: 12px; }
+  .cor b { display: block; font: 500 20px/1.1 var(--serifa); }
+  .cor small { display: block; font-size: 12px; color: var(--texto-suave-escuro); margin-top: 4px; }
+  .tipos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); margin-top: clamp(48px, 7vw, 88px); }
+  .tipo { border-top: 1px solid var(--linha-clara); padding-top: 22px; }
+  .tipo .amostra-tipo { min-height: 110px; display: flex; align-items: center; }
+  .tipo p { margin: 10px 0 0; color: var(--texto-suave-escuro); font-size: 14px; }
+
+  .refs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); }
+  .refs figure { margin: 0; }
+  .refs img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border: 1px solid var(--linha-escura); }
+  .refs figcaption { margin-top: 12px; font-size: 14px; color: var(--texto-suave); }
+  .refs figcaption b { display: block; font: 500 20px/1.2 var(--serifa); color: var(--sumi); }
+
+  .roteiro { list-style: none; margin: 0; padding: 0; counter-reset: r; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 5vw, 72px); }
+  .roteiro li { counter-increment: r; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px; padding: 20px 0; border-top: 1px solid var(--linha-escura); }
+  .roteiro li::before { content: counter(r, decimal-leading-zero); font: italic 400 26px/1 var(--serifa); color: var(--ouro); padding-top: 3px; }
+  .roteiro b { display: block; font: 500 22px/1.2 var(--serifa); }
+  .roteiro span { color: var(--texto-suave); font-size: 15px; }
+
+  .etapas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--linha-clara); border: 1px solid var(--linha-clara); }
+  .etapas li { background: var(--sumi-2); padding: clamp(22px, 3vw, 34px); }
+  .etapas .rotulo { color: var(--champagne); }
+  .etapas b { display: block; font: 500 24px/1.2 var(--serifa); margin: 14px 0 8px; }
+  .etapas p { margin: 0; color: var(--texto-suave-escuro); font-size: 15px; }
+  .etapas .agora { box-shadow: inset 0 2px 0 var(--champagne); }
+
+  footer { padding: 40px var(--margem); border-top: 1px solid var(--linha-clara); display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; color: var(--texto-suave-escuro); font-size: 13px; }
+
+  @media (max-width: 900px) {
+    .cab { grid-template-columns: 1fr; gap: 16px; }
+    .colunas, .tipos, .refs { grid-template-columns: 1fr; }
+    .paleta { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .roteiro { grid-template-columns: 1fr; }
+    .etapas { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .lockup { flex-direction: column; gap: 12px; padding-top: 64px; }
+    .lockup .fio { width: 28px; height: 1px; }
+    .dados span { flex: 1 1 100%; text-align: center; }
+    .dados span + span { border-left: 0; border-top: 1px solid var(--linha-clara); }
+    .paleta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .selo { top: auto; bottom: 12px; right: 12px; padding: 7px 12px; } .selo .extra { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rolar::after { animation: none; } }
+</style>
+</head>
+<body>
+
+<div class="selo rotulo" role="note"><b>Prévia do conceito</b><span class="extra"> · evento fictício</span></div>
+
+<header class="hero" id="topo">
+  <canvas id="perlage" aria-hidden="true"></canvas>
+  <div class="moldura" aria-hidden="true"></div>
+  <div class="lockup" aria-label="Moët Hennessy e Kinoshita">
+    <span class="wm-mh">Moët Hennessy</span>
+    <span class="fio" aria-hidden="true"></span>
+    <span class="wm-kino">KINOSHITA<i aria-hidden="true"></i></span>
+  </div>
+  <div class="hero-corpo">
+    <p class="rotulo">Jantar harmonizado · Kappo e champagne</p>
+    <h1>Cortar, cozinhar,<br><em>celebrar.</em></h1>
+    <p class="sub">Um menu degustação kappo harmonizado com champagnes e vinhos das Maisons Moët Hennessy, conduzido pelo sommelier João Perrone.</p>
+    <div class="dados">
+      <span>Sexta-feira, 16 de outubro</span>
+      <span>20h</span>
+      <span>Kinoshita · Vila Nova Conceição</span>
+    </div>
+    <a class="botao" href="../b/">Ver a página escolhida</a>
+  </div>
+  <div class="rolar">Role para ver o conceito</div>
+</header>
+
+<main>
+  <section class="bloco claro" aria-labelledby="t-achados">
+    <div class="cab">
+      <p class="rotulo">01 · O que a pesquisa encontrou</p>
+      <h2 id="t-achados">Duas casas que falam a mesma língua: <em>precisão, tempo e celebração.</em></h2>
+    </div>
+    <div class="colunas">
+      <article class="coluna">
+        <p class="rotulo">O restaurante</p>
+        <h3>Kinoshita</h3>
+        <p>Cozinha kappo, em que o cozinheiro corta e cozinha diante do cliente. Nasceu na Liberdade no fim dos anos 1970, com Toshio Kinoshita, e hoje recebe na Rua Jacques Félix, 405, na Vila Nova Conceição.</p>
+      </article>
+      <article class="coluna">
+        <p class="rotulo">A anfitriã das Maisons</p>
+        <h3>Moët Hennessy</h3>
+        <p>29 Maisons de vinhos e destilados do grupo LVMH, de Krug e Dom Pérignon a Hennessy. Uma linguagem de herança e savoir-faire, com serifa clássica, itálicos e muito respiro.</p>
+      </article>
+      <article class="coluna">
+        <p class="rotulo">A ponte entre as duas</p>
+        <h3>A Krug Room</h3>
+        <p>Dentro do Kinoshita existe uma sala dedicada à Maison Krug, que o restaurante descreve como única em toda a América Latina. É o elo natural entre a cozinha e o champagne.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="bloco escuro" aria-labelledby="t-id">
+    <div class="cab">
+      <p class="rotulo">02 · Identidade visual</p>
+      <h2 id="t-id">A sobriedade da Moët Hennessy com o <em>silêncio</em> do balcão japonês.</h2>
+    </div>
+    <div class="paleta" role="list">
+      <div class="cor" role="listitem"><div class="amostra" style="background:#0c0b0a"></div><div><b>Sumi</b><small>#0C0B0A · fundo da noite</small></div></div>
+      <div class="cor" role="listitem"><div class="amostra" style="background:#f4f0e8"></div><div><b>Washi</b><small>#F4F0E8 · papel e respiro</small></div></div>
+      <div class="cor" role="listitem"><div class="amostra" style="background:#d9c39a"></div><div><b>Champagne</b><small>#D9C39A · perlage e detalhes</small></div></div>
+      <div class="cor" role="listitem"><div class="amostra" style="background:#a8864f"></div><div><b>Ouro velho</b><small>#A8864F · rótulos e linhas</small></div></div>
+      <div class="cor" role="listitem"><div class="amostra" style="background:#2a0c16"></div><div><b>Ameixa</b><small>#2A0C16 · a Krug Room</small></div></div>
+      <div class="cor" role="listitem"><div class="amostra" style="background:#c4282c"></div><div><b>Shu</b><small>#C4282C · o ponto vermelho do Kinoshita</small></div></div>
+    </div>
+    <div class="tipos">
+      <div class="tipo">
+        <p class="rotulo" style="color:var(--champagne)">Assinatura</p>
+        <div class="amostra-tipo"><span style="font:500 clamp(40px,4vw,56px)/1 var(--serifa)">Moët Hennessy</span></div>
+        <p>Serifa clássica em caixa mista, como o logotipo atual da Moët Hennessy (Cormorant Garamond).</p>
+      </div>
+      <div class="tipo">
+        <p class="rotulo" style="color:var(--champagne)">Títulos</p>
+        <div class="amostra-tipo"><span style="font:italic 400 clamp(40px,4vw,56px)/1 var(--serifa)">Wines &amp; Spirits</span></div>
+        <p>Itálico de alto contraste, o mesmo gesto das páginas de Maisons da LVMH.</p>
+      </div>
+      <div class="tipo">
+        <p class="rotulo" style="color:var(--champagne)">Rótulos</p>
+        <div class="amostra-tipo"><span style="font:400 15px/1 var(--sans);letter-spacing:.62em">KINOSHITA</span></div>
+        <p>Geométrica em caixa alta e espaçada, como a marca do Kinoshita e os rótulos das Maisons (Jost).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco claro" aria-labelledby="t-refs">
+    <div class="cab">
+      <p class="rotulo">03 · Referências coletadas pelos agentes</p>
+      <h2 id="t-refs">O que os agentes viram, <em>capturado em tela</em> para guiar o desenho.</h2>
+    </div>
+    <div class="refs">
+      <figure><img src="ref/kinoshita.jpg" alt="Página inicial do site do Kinoshita, fachada à noite" loading="lazy"><figcaption><b>Kinoshita</b>Preto profundo, caixa alta espaçada e o vermelho como único acento.</figcaption></figure>
+      <figure><img src="ref/krug-room.jpg" alt="Página da Krug Room no site do Kinoshita" loading="lazy"><figcaption><b>Krug Room</b>Ameixa, luz quente e cristais: a sala dedicada à Krug.</figcaption></figure>
+      <figure><img src="ref/mh-lvmh.jpg" alt="Bloco Moët Hennessy na página Wines and Spirits da LVMH" loading="lazy"><figcaption><b>Moët Hennessy</b>Off-white, números em itálico e rótulos geométricos.</figcaption></figure>
+      <figure><img src="ref/maisons.jpg" alt="Grade de Maisons de vinhos e destilados da LVMH" loading="lazy"><figcaption><b>As Maisons</b>Grade limpa, muito respiro, nenhuma promoção.</figcaption></figure>
+      <figure><img src="ref/krug.jpg" alt="Página inicial do site da Krug" loading="lazy"><figcaption><b>Krug</b>Moldura de linha fina e itálico como fio condutor.</figcaption></figure>
+      <figure><img src="ref/dom-perignon.jpg" alt="Página inicial do site da Dom Pérignon" loading="lazy"><figcaption><b>Dom Pérignon</b>Contraste dramático e economia de elementos.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="bloco papel" id="roteiro" aria-labelledby="t-roteiro">
+    <div class="cab">
+      <p class="rotulo">04 · Como será a página</p>
+      <h2 id="t-roteiro">Um convite em dez movimentos, <em>do brinde ao formulário.</em></h2>
+    </div>
+    <ol class="roteiro">
+      <li><div><b>Confirmação de idade</b><span>A porta de entrada com 18 anos ou mais, no padrão das Maisons.</span></div></li>
+      <li><div><b>Abertura</b><span>Assinatura Moët Hennessy e Kinoshita, título, data e o convite.</span></div></li>
+      <li><div><b>A experiência</b><span>O que acontece na noite, do primeiro brinde ao último gole.</span></div></li>
+      <li><div><b>O Kinoshita</b><span>A cozinha kappo, a história desde a Liberdade e a Krug Room.</span></div></li>
+      <li><div><b>As Maisons</b><span>Moët Hennessy à mesa: herança, savoir-faire e celebração.</span></div></li>
+      <li><div><b>Menu harmonizado</b><span>Cada tempo com seu rótulo e a nota do sommelier.</span></div></li>
+      <li><div><b>O anfitrião</b><span>João Perrone, sommelier que conduz a harmonização.</span></div></li>
+      <li><div><b>Detalhes</b><span>Data, horário, endereço e o caminho no mapa.</span></div></li>
+      <li><div><b>Solicitar convite</b><span>Nome, e-mail e telefone. A confirmação já oferece o convite para a agenda.</span></div></li>
+      <li><div><b>Rodapé</b><span>Consumo responsável e os créditos da noite.</span></div></li>
+    </ol>
+  </section>
+
+  <section class="bloco escuro" aria-labelledby="t-time">
+    <div class="cab">
+      <p class="rotulo">05 · Quem está construindo</p>
+      <h2 id="t-time">Um ateliê de agentes, <em>cada um no seu ofício.</em></h2>
+    </div>
+    <ol class="etapas">
+      <li><p class="rotulo">Etapa 1</p><b>Pesquisa e checagem</b><p>Quatro pesquisadores (marca, restaurante, visual e harmonização) e verificadores que tentam derrubar cada fato.</p></li>
+      <li><p class="rotulo">Etapa 2</p><b>Direção criativa</b><p>Kapferer na estratégia de luxo, Alina Wheeler no sistema visual, UX Designer na estrutura, Ogilvy e Joanna Wiebe no texto.</p></li>
+      <li><p class="rotulo">Etapa 3</p><b>Brief do Design Chief</b><p>Uma fonte única com fatos verificados, tokens, copy final e menu.</p></li>
+      <li><p class="rotulo">Etapa 4</p><b>Três direções em paralelo</b><p>Três UI Engineers constroem três versões completas ao mesmo tempo.</p></li>
+      <li><p class="rotulo">Etapa 5</p><b>Júri</b><p>Marca, design e conversão avaliam as três e apontam o que levar de cada uma.</p></li>
+      <li class="agora"><p class="rotulo">Etapa 6 · concluída</p><b>No ar</b><p>A vencedora lapidada em localhost, com formulário e painel de inscrições ao vivo.</p></li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <span>Prévia de conceito criada para demonstração · Curadoria e harmonização: João Perrone</span>
+  <span>Beba com moderação. Venda proibida para menores de 18 anos.</span>
+</footer>
+
+<script>
+  // Perlage: fios de bolhas sobem como na taça; pausa fora da tela e respeita movimento reduzido.
+  (() => {
+    const tela = document.getElementById('perlage');
+    const ctx = tela.getContext('2d');
+    const reduzido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, fios = [], bolhas = [], visivel = true, quadro = 0;
+    function medir() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = tela.clientWidth; H = tela.clientHeight;
+      tela.width = W * dpr; tela.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.max(7, Math.round(W / 70));
+      fios = Array.from({ length: n }, (_, i) => ({ x: (i + 0.5) * (W / n) + (Math.random() - 0.5) * (W / n) * 0.7, ritmo: 0.25 + Math.random() * 0.9 }));
+      bolhas = [];
+      for (let i = 0; i < 260; i++) avancar(true);
+    }
+    const nova = (f) => ({ x: f.x + (Math.random() - 0.5) * 3, y: H + 4, r: 0.5 + Math.random() * 1.1, v: 0.35 + Math.random() * 0.5, a: 0.004 + Math.random() * 0.006, fase: Math.random() * 6.28 });
+    function avancar(silencioso) {
+      for (const f of fios) if (Math.random() < 0.09 * f.ritmo) bolhas.push(nova(f));
+      for (let i = bolhas.length - 1; i >= 0; i--) {
+        const b = bolhas[i];
+        b.v += b.a; b.y -= b.v; b.r += 0.003; b.fase += 0.06;
+        if (b.y < -8) bolhas.splice(i, 1);
+      }
+      if (silencioso) return;
+      ctx.clearRect(0, 0, W, H);
+      for (const b of bolhas) {
+        const x = b.x + Math.sin(b.fase) * 0.7;
+        const alfa = Math.min(1, (H - b.y) / 90) * Math.max(0, Math.min(1, b.y / (H * 0.55)));
+        if (alfa <= 0) continue;
+        ctx.beginPath(); ctx.arc(x, b.y, b.r, 0, 6.283);
+        ctx.fillStyle = `rgba(244,236,214,${0.10 * alfa})`; ctx.fill();
+        ctx.lineWidth = 0.7; ctx.strokeStyle = `rgba(217,195,154,${0.75 * alfa})`; ctx.stroke();
+        ctx.beginPath(); ctx.arc(x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.28, 0, 6.283);
+        ctx.fillStyle = `rgba(255,250,238,${0.8 * alfa})`; ctx.fill();
+      }
+    }
+    function ciclo() { avancar(false); if (visivel && !reduzido && !document.hidden) quadro = requestAnimationFrame(ciclo); }
+    medir(); avancar(false);
+    if (!reduzido) {
+      quadro = requestAnimationFrame(ciclo);
+      new IntersectionObserver(([e]) => { visivel = e.isIntersecting; cancelAnimationFrame(quadro); if (visivel) quadro = requestAnimationFrame(ciclo); }).observe(tela);
+      document.addEventListener('visibilitychange', () => { cancelAnimationFrame(quadro); if (!document.hidden && visivel) quadro = requestAnimationFrame(ciclo); });
+    }
+    let espera; addEventListener('resize', () => { clearTimeout(espera); espera = setTimeout(() => { medir(); avancar(false); }, 150); });
+  })();
+</script>
+</body>
+</html>

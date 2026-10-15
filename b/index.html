@@ -1,0 +1,1291 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<script>
+/* Versão online de demonstração: nenhuma inscrição sai do navegador. */
+(function () {
+  var original = window.fetch ? window.fetch.bind(window) : null;
+  window.fetch = function (url, opcoes) {
+    if (String(url).indexOf('/api/rsvp') !== -1) {
+      var nome = '';
+      try { nome = (JSON.parse((opcoes && opcoes.body) || '{}').nome || '').trim().split(/\s+/)[0]; } catch (e) {}
+      return new Promise(function (ok) { setTimeout(function () {
+        ok(new Response(JSON.stringify({ ok: true, primeiroNome: nome || 'convidado' }), { status: 201, headers: { 'Content-Type': 'application/json' } }));
+      }, 700); });
+    }
+    return original(url, opcoes);
+  };
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sob a Árvore · Kinoshita</title>
+<meta name="description" content="Jantar harmonizado em oito tempos no Kinoshita, com champagnes e vinhos das Maisons Moët Hennessy e o sommelier João Perrone. Sexta, 16 de outubro de 2026, às 20h. Beba com moderação.">
+<meta property="og:title" content="Sob a Árvore · Moët Hennessy no Kinoshita">
+<meta property="og:description" content="Jantar harmonizado em oito tempos no Kinoshita, com champagnes e vinhos das Maisons Moët Hennessy e o sommelier João Perrone. Sexta, 16 de outubro de 2026, às 20h. Beba com moderação.">
+<meta name="theme-color" content="#F1EFEB">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23F1EFEB'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%230D0D0D' stroke-width='5' stroke-linecap='round' stroke-dasharray='112 14' transform='rotate(-80 32 32)'/%3E%3Ccircle cx='35.5' cy='12.3' r='3.6' fill='%23E13837'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Babylonica&display=swap&text=Jo%C3%A3o%20Perrone">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap&text=%E6%9C%A8%E4%B8%8B%E5%85%88%E4%BB%98%E5%85%AB%E5%AF%B8%E3%81%8A%E9%80%A0%E3%82%8A%E6%8F%A1%E6%8F%9A%E7%89%A9%E7%84%BC%E9%A3%9F%E4%BA%8B%E6%B0%B4%E8%8F%93%E5%AD%90">
+<script>
+(function () {
+  var h = document.documentElement, q = new URLSearchParams(location.search), v = null;
+  h.classList.add('js');
+  if (q.get('preview') === '1') { h.classList.add('preview', 'entrou'); return; }
+  try { v = sessionStorage.getItem('idade-ok'); } catch (e) { v = null; }
+  if (v !== '1') h.classList.add('gate-ativo');
+  if (v === '0') h.classList.add('gate-negado');
+})();
+</script>
+<style>
+:root{
+  --cor-noite:#0D0D0D; --cor-ameixa:#1F0311; --cor-bordo:#5E0027; --cor-bordo-profundo:#3D0327;
+  --cor-ouro:#CCAD7B; --cor-ouro-escuro:#6F5428; --cor-brilho:#F3E6C8;
+  --cor-papel:#F1EFEB; --cor-creme:#F7F5EF; --cor-marinho:#030F2B; --cor-vermelho:#E13837;
+  --cor-texto-suave:#ADADAD; --cor-texto-terciario:#8A8A8A; --cor-grafite:#55626E;
+  --linha-ouro:rgba(204,173,123,.45); --linha-marinho:rgba(3,15,43,.12);
+  --campo-linha-escuro:#6B6B6B; --campo-linha-claro:#5C5C5C;
+  --erro-escuro:#FF8A8A; --erro-claro:#B3261E;
+  --f-serif:"Cormorant Garamond", Georgia, serif;
+  --f-sans:"Jost", system-ui, sans-serif;
+  --f-assinatura:"Babylonica", cursive;
+  --f-kanji:"Yuji Syuku", "Hiragino Mincho ProN", serif;
+  --esp-1:4px; --esp-2:8px; --esp-3:12px; --esp-4:16px; --esp-5:24px; --esp-6:32px;
+  --esp-7:48px; --esp-8:64px; --esp-9:96px; --esp-10:128px; --esp-11:160px;
+  --secao-y:clamp(72px,10vw,140px);
+  --moldura:clamp(16px,4vw,60px);
+  --respiro:clamp(20px,4vw,56px);
+  --botao-altura:52px; --campo-altura:56px; --raio:0;
+  --z-moldura:20; --z-barra:40; --z-gate:100;
+  --dur-micro:180ms; --dur-curta:400ms; --dur-revelar:800ms; --dur-desenho:1600ms;
+  --ease-saida:cubic-bezier(.22,.61,.36,1); --ease-tinta:cubic-bezier(.65,0,.35,1);
+
+  /* Direção 2 · Papel e Sumi */
+  --fundo:#F1EFEB; --fundo-alt:#F7F5EF; --texto:#0D0D0D; --texto-suave:#55626E; --titulo:#5E0027;
+  --rotulo:#55626E; --linha:#0D0D0D; --acento:#5E0027; --acento-hover:#3D0327; --foco:#5E0027;
+  --erro:#B3261E; --campo-linha:#5C5C5C; --texto-botao:#F1EFEB;
+  --washi:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .40 0 0 0 0 .33 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='.09'/%3E%3C/svg%3E");
+  --fibras:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' fill='none' stroke='%23574a36' stroke-width='.6' stroke-linecap='round' opacity='.04'%3E%3Cpath d='M12 40c40 8 70 2 96 14M220 18c26 30 30 52 62 70M400 60c-30 20-44 36-80 44M60 200c22 24 58 26 80 52M300 230c40-6 60 10 96 6M460 180c-8 40-30 62-24 96M30 380c40-10 70 6 104-4M200 330c20 30 52 40 70 70M380 420c30-14 62-8 92-26M120 470c30 6 52-10 84 2M480 470c-20 18-24 30-52 40M250 120c-14 20-10 40-30 56'/%3E%3C/svg%3E");
+  color-scheme: light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:var(--moldura)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background-color:var(--fundo);background-image:var(--fibras),var(--washi);color:var(--texto);
+  font-family:var(--f-sans);font-weight:400;font-size:17px;line-height:1.65;letter-spacing:.01em;
+  text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+@media (min-width:1200px){body{font-size:18px}}
+img,svg,canvas{display:block;max-width:100%}
+a{color:inherit}
+p{margin:0 0 1em}
+h1,h2,h3{margin:0;font-weight:400}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--foco);outline-offset:3px}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+[hidden]{display:none!important}
+
+/* ---------- moldura fixa (passe-partout de papel) ---------- */
+.moldura{position:absolute;z-index:var(--z-moldura);pointer-events:none;background-color:var(--fundo);background-image:var(--fibras),var(--washi)}
+.moldura.m-t{top:0;left:0;right:0;height:var(--moldura)}
+.moldura.m-b{bottom:0;left:0;right:0;height:var(--moldura)}
+.moldura.m-l{top:0;bottom:0;left:0;width:var(--moldura)}
+.moldura.m-r{top:0;bottom:0;right:0;width:var(--moldura)}
+.moldura-linha{position:absolute;z-index:var(--z-moldura);inset:var(--moldura);border:1px solid var(--cor-noite);pointer-events:none}
+.margem-rotulo{display:none}
+@media (min-width:1024px){
+  .margem-rotulo{display:block;position:fixed;z-index:calc(var(--z-moldura) + 1);top:50%;font:400 11px/1 var(--f-sans);
+    letter-spacing:.45em;text-transform:uppercase;color:#3B4148;white-space:nowrap;pointer-events:none}
+  .margem-rotulo.esq{left:calc(var(--moldura) / 2);transform:translate(-50%,-50%) rotate(-90deg)}
+  .margem-rotulo.dir{right:calc(var(--moldura) / 2);transform:translate(50%,-50%) rotate(90deg)}
+}
+.quadro{padding-inline:calc(var(--moldura) + var(--respiro))}
+.conteiner{max-width:1200px;margin-inline:auto}
+
+/* ---------- tipografia ---------- */
+.rotulo{font:400 11px/1.6 var(--f-sans);letter-spacing:.45em;text-transform:uppercase;color:var(--rotulo)}
+.kicker{font:italic 400 clamp(22px,2.2vw,26px)/1.2 var(--f-serif);color:var(--texto);margin:0 0 var(--esp-4)}
+.h2{font:400 clamp(24px,3.2vw,40px)/1.2 var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--titulo);margin:0 0 var(--esp-5)}
+.editorial{font:italic 400 clamp(20px,1.6vw,22px)/1.45 var(--f-serif);max-width:40ch;margin:0 auto var(--esp-6);text-align:center;color:var(--texto)}
+.corpo{max-width:62ch}
+.advertencia{font:500 12px/1.6 var(--f-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--texto);margin:0}
+.centro{text-align:center}
+[lang="ja"]{font-family:var(--f-kanji)}
+i[lang="ja-Latn"]{font-style:italic}
+.jp{font-family:var(--f-serif);font-size:1.12em;line-height:1}
+
+/* ---------- wordmarks ---------- */
+.wm-mh{font-family:var(--f-serif);font-weight:500;font-style:normal;letter-spacing:.005em;word-spacing:-.04em;font-kerning:normal;
+  color:var(--cor-noite);white-space:nowrap;line-height:1}
+.wm-ki{display:inline-flex;align-items:center;gap:.8em;color:var(--cor-noite);line-height:1}
+.wm-ki-nome{font:300 1em/1 var(--f-sans);letter-spacing:.6em;margin-right:-.6em;text-transform:uppercase}
+.wm-ki-kanji{writing-mode:vertical-rl;font-size:.92em;line-height:1;letter-spacing:0}
+.lockup{display:flex;flex-direction:column;align-items:center;gap:12px}
+.lockup .wm-mh{font-size:22px}
+.lockup .wm-ki{font-size:13px}
+.lockup-sep{display:block;width:40px;height:1px;background:rgba(13,13,13,.6)}
+@media (min-width:600px){
+  .lockup{flex-direction:row;gap:28px}
+  .lockup .wm-mh{font-size:24px}
+  .lockup-sep{width:1px;height:26px}
+}
+
+/* ---------- botões ---------- */
+.botao{display:inline-flex;align-items:center;justify-content:center;min-height:var(--botao-altura);padding:0 32px;border:1px solid var(--acento);
+  background:var(--acento);color:var(--texto-botao);font:500 13px/1.2 var(--f-sans);letter-spacing:.24em;text-transform:uppercase;text-decoration:none;
+  border-radius:0;cursor:pointer;transition:background-color var(--dur-micro) var(--ease-saida),border-color var(--dur-micro) var(--ease-saida);text-align:center}
+.botao:hover{background:var(--acento-hover);border-color:var(--acento-hover)}
+.botao-linha{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border:1px solid var(--linha);background:transparent;
+  color:var(--texto);font:500 12px/1.2 var(--f-sans);letter-spacing:.2em;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:0;
+  transition:background-color var(--dur-micro) var(--ease-saida),color var(--dur-micro) var(--ease-saida)}
+.botao-linha:hover{background:var(--texto);color:var(--fundo)}
+.link{display:inline-flex;align-items:center;min-height:44px;font:400 13px/1.2 var(--f-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--texto);
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.link:hover{text-decoration-color:var(--acento)}
+.link-texto{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px;display:inline-flex;align-items:center}
+
+/* ---------- revelação (D2: só fade) ---------- */
+html.js .revelar{opacity:0;transition:opacity var(--dur-revelar) var(--ease-saida)}
+html.js .revelar.visivel,html.preview .revelar{opacity:1}
+
+/* ---------- pincelada sumi ---------- */
+.pincel{color:var(--cor-noite);pointer-events:none}
+.pincel svg{width:100%;height:100%;overflow:visible}
+.pincel-mascara{overflow:hidden;width:100%;height:100%}
+html.js .pincel-mascara.vertical{transform:translateY(-101%)}
+html.js .pincel-mascara.vertical>svg{transform:translateY(101%)}
+html.js .pincel-mascara.horizontal{transform:translateX(-101%)}
+html.js .pincel-mascara.horizontal>svg{transform:translateX(101%)}
+html.js .pincel-mascara,html.js .pincel-mascara>svg{transition:transform 900ms var(--ease-tinta)}
+html.js .tracado .pincel-mascara,html.js .tracado .pincel-mascara>svg,
+html.preview .pincel-mascara,html.preview .pincel-mascara>svg{transform:none}
+
+/* ---------- linha de balcão (acompanha a rolagem) ---------- */
+.balcao{height:1px;background:var(--linha);transform-origin:0 50%;margin:0 0 calc(var(--secao-y) * .4)}
+html.js .balcao{transform:scaleX(0)}
+html.preview .balcao{transform:none}
+
+/* ---------- cabeçalho e hero ---------- */
+.skip{position:fixed;z-index:200;top:calc(var(--moldura) + 8px);left:calc(var(--moldura) + 8px);background:var(--acento);color:var(--cor-papel);
+  padding:12px 18px;font:500 13px/1 var(--f-sans);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transform:translateY(-200%);opacity:0}
+.skip:focus{transform:none;opacity:1}
+#convite{position:relative;min-height:100vh;min-height:var(--hero-h,100svh);display:flex;flex-direction:column;padding-top:var(--moldura);padding-bottom:var(--moldura)}
+.cabecalho{position:relative;display:flex;align-items:center;justify-content:center;min-height:64px;padding:16px var(--respiro);border-bottom:1px solid var(--linha)}
+.cabecalho .lugar-link{display:none}
+@media (min-width:1024px){
+  .cabecalho .lugar-link{display:inline-flex;position:absolute;right:var(--respiro);top:50%;transform:translateY(-50%)}
+}
+.hero{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:clamp(28px,5vh,64px) var(--respiro) clamp(24px,4vh,48px)}
+.hero-pincel{position:absolute;top:0;left:max(calc(50% - 400px), 8%);width:56px;height:52%;}
+.hero-kanji{position:absolute;top:clamp(40px,8vh,96px);left:calc(max(calc(50% - 400px), 8%) + 76px);font-family:var(--f-kanji);font-size:40px;line-height:1.05;
+  writing-mode:vertical-rl;color:var(--cor-vermelho)}
+.hero-kicker{font:400 11px/1.6 var(--f-sans);letter-spacing:.3em;text-transform:uppercase;color:var(--cor-grafite);margin:0 0 clamp(22px,3.6vh,40px);margin-right:-.3em}
+h1{width:100%;margin:0}
+.titulo-linha{display:flex;align-items:center;justify-content:center;gap:clamp(20px,3vw,48px);width:100%}
+.titulo-linha::before,.titulo-linha::after{content:"";flex:1;height:1px;background:var(--linha);opacity:.9}
+.palavra{display:block;font:600 clamp(56px,min(8.4vw,11.6vh),120px)/.95 var(--f-serif);letter-spacing:.02em;text-transform:uppercase;color:var(--titulo);white-space:nowrap}
+.palavra span{display:block}
+.headline{display:block;font:italic 400 clamp(26px,3vw,40px)/1.2 var(--f-serif);color:var(--texto);max-width:31ch;margin:clamp(16px,2.6vh,28px) auto 0}
+@media (min-width:420px){.headline .hl{display:block}}
+.subheadline{max-width:52ch;margin:clamp(14px,2.2vh,22px) auto 0;color:var(--texto-suave)}
+.dados{margin:clamp(18px,3vh,30px) auto 0;font:400 11px/2 var(--f-sans);letter-spacing:.38em;text-transform:uppercase;color:var(--texto);max-width:none}
+.dados .ponto{color:var(--acento)}
+.dados .grupo{white-space:nowrap}
+@media (max-width:599px){.dados .grupo{display:block}.dados .sep-grupo{display:none}}
+.selo{display:flex;align-items:center;justify-content:center;gap:14px;margin:clamp(14px,2.4vh,24px) 0 0;font:italic 500 22px/1 var(--f-serif);color:var(--acento)}
+.selo::before,.selo::after{content:"";width:28px;height:1px;background:var(--acento)}
+.acoes-hero{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 28px;margin-top:clamp(18px,3vh,28px)}
+.nota-hero{margin:14px 0 0;font-size:14px;color:var(--texto-suave)}
+.hero-base{display:flex;justify-content:center;padding:16px var(--respiro);border-top:1px solid var(--linha)}
+@media (max-width:767px){
+  .hero-pincel{position:relative;top:auto;left:auto;width:22px;height:60px;margin:0}
+  .hero-ornamento{position:relative;display:flex;align-items:flex-start;justify-content:center;gap:12px;margin:0 0 14px}
+  .hero-kanji{position:static;font-size:24px}
+  .hero{padding-top:18px;padding-bottom:20px}
+  .dados{letter-spacing:.22em}
+  .nota-hero{margin-top:10px}
+  .titulo-linha{gap:14px}
+  .dados{letter-spacing:.18em}
+  .acoes-hero .botao{width:100%}
+}
+@media (min-width:768px){ .hero-ornamento{position:absolute;inset:0;pointer-events:none} }
+@media (max-width:599px){ .titulo-linha::before,.titulo-linha::after{display:none} }
+
+/* ---------- seções ---------- */
+.secao{position:relative;padding-block:calc(var(--secao-y) * .35)}
+@media (max-width:599px){:root{--secao-y:80px}}
+#lugar{padding-block:var(--secao-y)}
+#experiencia{padding-top:0}
+.secao-cabeca{text-align:center;margin-bottom:var(--esp-7)}
+.secao-cabeca .h2{margin-bottom:0}
+.pincel-h{width:min(260px,60%);height:30px;margin:var(--esp-5) auto 0}
+
+/* experiência */
+.exp-texto{max-width:62ch;margin:0 auto}
+.destaques{list-style:none;margin:var(--esp-8) 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--linha)}
+.destaques li{padding:var(--esp-6) 0;border-bottom:1px solid var(--linha)}
+.destaques strong{display:block;font:italic 500 26px/1.2 var(--f-serif);margin-bottom:var(--esp-2);color:var(--titulo)}
+.destaques p{margin:0;font-size:16px}
+@media (min-width:900px){
+  .destaques{grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--linha)}
+  .destaques li{border-bottom:0;padding:var(--esp-6) var(--esp-6)}
+  .destaques li+li{border-left:1px solid var(--linha)}
+}
+
+/* menu */
+.menu-intro{max-width:46ch;margin:0 auto var(--esp-7)}
+.tempos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:1px;background:var(--linha);border:1px solid var(--linha)}
+@media (min-width:600px){.tempos{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1200px){.tempos{grid-template-columns:repeat(4,1fr)}}
+.tempo{position:relative;background-color:var(--fundo);background-image:var(--fibras),var(--washi);padding:var(--esp-6) var(--esp-5) var(--esp-4);display:flex;flex-direction:column}
+.tempo-num{font:italic 500 56px/1 var(--f-serif);font-variant-numeric:lining-nums;letter-spacing:-.01em;color:var(--titulo);margin:0 0 var(--esp-4)}
+.tempo-kanji{position:absolute;top:var(--esp-6);right:var(--esp-5);writing-mode:vertical-rl;font-family:var(--f-kanji);font-size:22px;line-height:1.1;color:var(--cor-grafite)}
+.tempo h3{font:400 11px/1.6 var(--f-sans);letter-spacing:.3em;text-transform:uppercase;color:var(--rotulo);margin:0 0 var(--esp-3);padding-right:40px}
+.tempo h3 i{font:italic 500 21px/1.2 var(--f-serif);letter-spacing:0;text-transform:none;color:var(--texto);display:block;margin-bottom:2px}
+.prato{font:italic 400 21px/1.3 var(--f-serif);margin:0 0 var(--esp-2)}
+.prato-desc{font-size:15px;line-height:1.6;color:var(--texto-suave);margin:0 0 var(--esp-5)}
+.harmonia{margin-top:auto;padding-top:var(--esp-4);border-top:1px solid rgba(13,13,13,.25)}
+.harmonia .maison{display:block;font:500 12px/1.5 var(--f-sans);letter-spacing:.24em;text-transform:uppercase;color:var(--texto)}
+.harmonia .rotulo-vinho{display:block;font:italic 400 19px/1.3 var(--f-serif);color:var(--texto);margin-top:2px}
+.nota details{margin-top:var(--esp-2)}
+.nota summary{list-style:none;display:inline-flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;font:400 11px/1 var(--f-sans);letter-spacing:.3em;text-transform:uppercase;color:var(--titulo)}
+.nota summary::-webkit-details-marker{display:none}
+.nota summary .mais{position:relative;width:11px;height:11px;flex:none}
+.nota summary .mais::before,.nota summary .mais::after{content:"";position:absolute;left:0;top:5px;width:11px;height:1px;background:currentColor;transition:transform var(--dur-micro) var(--ease-saida)}
+.nota summary .mais::after{transform:rotate(90deg)}
+.nota details[open] summary .mais::after{transform:rotate(0)}
+.nota details p{font-size:15px;line-height:1.6;margin:var(--esp-2) 0 var(--esp-2)}
+.menu-rodape{max-width:62ch;margin:var(--esp-7) auto 0;text-align:center}
+.menu-rodape p{font-size:15px;color:var(--texto-suave)}
+.menu-rodape .advertencia{margin-top:var(--esp-5);color:var(--texto);font-size:12px}
+
+/* anfitrião */
+.anfitriao-grade{position:relative;max-width:720px;margin:0 auto;text-align:center}
+.anf-rotulo{margin:0 0 var(--esp-6)}
+.anf-texto{text-align:left;max-width:58ch;margin:0 auto}
+.anf-pincel{position:absolute;top:-20px;left:calc(-1 * clamp(40px,8vw,140px));width:44px;height:420px;display:none}
+@media (min-width:1100px){.anf-pincel{display:block}}
+.assinatura{font:400 clamp(40px,4.6vw,56px)/1 var(--f-assinatura);color:var(--titulo);margin:var(--esp-6) 0 0}
+
+.anfitriao-grade.com-retrato{max-width:1100px;display:grid;gap:clamp(32px,5vw,80px);align-items:center;text-align:center}
+.anf-retrato{position:relative;margin:0 auto;width:min(100%,420px)}
+.anf-retrato img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--linha)}
+.anf-retrato::after{content:"";position:absolute;inset:12px;border:1px solid rgba(244,240,232,.5);pointer-events:none}
+.com-retrato .anf-pincel{left:auto;right:calc(-1 * clamp(40px,6vw,100px))}
+@media (min-width:900px){.anfitriao-grade.com-retrato{grid-template-columns:minmax(0,5fr) minmax(0,6fr);text-align:left}.com-retrato .anf-texto{margin:0}}
+
+/* kinoshita */
+.kin-grade{display:grid;gap:var(--esp-7);align-items:center}
+@media (min-width:1000px){.kin-grade{grid-template-columns:5fr 6fr;gap:var(--esp-9)}}
+.enso{position:relative;width:min(100%,440px);aspect-ratio:1;margin:0 auto}
+.enso svg{position:absolute;inset:0;width:100%;height:100%}
+html.js .enso-traco{opacity:0;transform:rotate(-24deg);transform-origin:50% 50%;transition:opacity var(--dur-desenho) var(--ease-tinta),transform var(--dur-desenho) var(--ease-tinta)}
+html.js .tracado .enso-traco,html.preview .enso-traco{opacity:1;transform:none}
+.enso blockquote{position:absolute;inset:22%;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.enso blockquote p{font:italic 400 clamp(22px,2.4vw,30px)/1.3 var(--f-serif);margin:0 0 var(--esp-4)}
+.enso blockquote footer{font:400 11px/1 var(--f-sans);letter-spacing:.45em;text-transform:uppercase;color:var(--rotulo);margin-right:-.45em}
+.kin-texto .h2{margin-bottom:var(--esp-3)}
+.kin-texto .rotulo{margin:0 0 var(--esp-6)}
+.fatos{list-style:none;margin:clamp(48px,7vw,96px) 0 0;padding:0;display:grid;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.fatos li{padding:var(--esp-6) var(--esp-4);text-align:center}
+.fatos li+li{border-top:1px solid var(--linha)}
+.fatos .num{display:block;font:italic 500 clamp(44px,5vw,60px)/1 var(--f-serif);font-variant-numeric:lining-nums;letter-spacing:-.01em;color:var(--titulo);margin-bottom:var(--esp-3)}
+@media (min-width:768px){.fatos{grid-template-columns:repeat(3,1fr)}.fatos li+li{border-top:0;border-left:1px solid var(--linha)}}
+
+/* maisons */
+.mai-texto{max-width:62ch;margin:0 auto}
+.mai-texto .fecho{font:italic 400 clamp(20px,1.6vw,22px)/1.45 var(--f-serif);text-align:center;max-width:40ch;margin:var(--esp-7) auto var(--esp-6)}
+.nota-pequena{font-size:14px;color:var(--texto-suave);text-align:center;max-width:52ch;margin:0 auto}
+.cartoes{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:var(--esp-3);margin:var(--esp-7) 0 var(--esp-7)}
+@media (min-width:1100px){.cartoes{grid-template-columns:repeat(4,1fr);gap:var(--esp-4)}}
+.cartao{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--cor-noite);color:var(--cor-papel);border:1px solid rgba(204,173,123,.28)}
+.cartao svg{position:absolute;inset:0;width:100%;height:100%}
+.cartao::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(13,13,13,.86) 0,rgba(13,13,13,.4) 38%,transparent 64%);pointer-events:none}
+.cartao::after{content:"";position:absolute;inset:0;background:rgba(13,13,13,.4);transition:background-color var(--dur-curta) var(--ease-saida)}
+.cartao:hover::after{background:rgba(13,13,13,.25)}
+.cartao-num{position:absolute;top:12px;left:16px;z-index:2;font:italic 500 clamp(30px,3vw,40px)/1 var(--f-serif);font-variant-numeric:lining-nums;color:var(--cor-ouro)}
+.cartao-txt{position:absolute;left:0;right:0;bottom:0;padding:clamp(12px,1.6vw,22px);z-index:2;transition:transform var(--dur-curta) var(--ease-saida)}
+.cartao:hover .cartao-txt{transform:translateY(-4px)}
+.cartao h3{margin:0;font:400 clamp(12px,1.15vw,15px)/1.35 var(--f-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--cor-papel)}
+.cartao .origem{display:block;margin-top:6px;font:400 10px/1.4 var(--f-sans);letter-spacing:.24em;text-transform:uppercase;color:var(--cor-brilho)}
+@media (max-width:420px){.cartao h3{letter-spacing:.12em}.cartao .origem{letter-spacing:.14em}}
+@media (prefers-reduced-motion: reduce){.cartao-txt,.cartao::after{transition:none}}
+
+/* detalhes */
+.det-lista{max-width:820px;margin:0 auto;border-top:1px solid var(--linha)}
+.det-lista>div{display:grid;gap:4px;padding:var(--esp-5) 0;border-bottom:1px solid var(--linha)}
+.det-lista dt{font:400 11px/1.6 var(--f-sans);letter-spacing:.45em;text-transform:uppercase;color:var(--rotulo)}
+.det-lista dd{margin:0}
+.det-lista address{font-style:normal}
+@media (min-width:700px){.det-lista>div{grid-template-columns:200px 1fr;gap:24px;align-items:baseline}}
+.det-acoes{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:var(--esp-7) auto 0}
+.det-adv{text-align:center;margin-top:var(--esp-6)}
+.mapas-linha{text-align:center;margin:var(--esp-4) 0 0;font-size:14px;color:var(--cor-grafite)}
+.mapas-linha a{display:inline-flex;align-items:center;min-height:44px;color:var(--texto);text-decoration-color:var(--cor-ouro-escuro);text-underline-offset:4px}
+@media (max-width:599px){.det-acoes>*{width:100%}}
+
+/* ---------- faixa noite: formulário e rodapé ---------- */
+.noite{--fundo:#0D0D0D; --fundo-alt:#1F0311; --texto:#F1EFEB; --texto-suave:#ADADAD; --titulo:#F1EFEB; --rotulo:#CCAD7B;
+  --linha:var(--linha-ouro); --acento:#5E0027; --acento-hover:#3D0327; --foco:#CCAD7B; --erro:#FF8A8A; --campo-linha:#6B6B6B;
+  background:var(--cor-noite);color:var(--texto);position:relative;color-scheme:dark}
+.noite .botao{border-color:rgba(204,173,123,.6)}
+.noite .botao:hover{border-color:var(--cor-ouro)}
+.noite .botao-linha{border-color:rgba(204,173,123,.6);color:var(--texto)}
+.noite .botao-linha:hover{background:var(--cor-papel);color:var(--cor-noite)}
+.noite .kicker{color:var(--cor-ouro)}
+#lugar{background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(94,0,39,.55),transparent 70%),var(--cor-noite);overflow:hidden}
+.perlage{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
+.lugar-caixa{position:relative;max-width:640px;margin:0 auto}
+.lugar-moldura{position:absolute;top:clamp(16px,3vw,40px);bottom:clamp(16px,3vw,40px);left:calc(var(--moldura) + clamp(10px,2vw,28px));right:calc(var(--moldura) + clamp(10px,2vw,28px));pointer-events:none}
+.lugar-moldura i{position:absolute;background:var(--cor-ouro);opacity:.7}
+.lugar-moldura .lm-t,.lugar-moldura .lm-b{left:0;right:0;height:1px}
+.lugar-moldura .lm-l,.lugar-moldura .lm-r{top:0;bottom:0;width:1px}
+.lugar-moldura .lm-t{top:0;transform-origin:0 50%}
+.lugar-moldura .lm-b{bottom:0;transform-origin:100% 50%}
+.lugar-moldura .lm-r{right:0;transform-origin:50% 0}
+.lugar-moldura .lm-l{left:0;transform-origin:50% 100%}
+html.js .lugar-moldura .lm-t,html.js .lugar-moldura .lm-b{transform:scaleX(0)}
+html.js .lugar-moldura .lm-l,html.js .lugar-moldura .lm-r{transform:scaleY(0)}
+html.js .lugar-moldura i{transition:transform var(--dur-desenho) var(--ease-tinta)}
+html.js .lugar-moldura.tracado i,html.preview .lugar-moldura i{transform:none}
+.noite #enviar{background:var(--cor-papel);color:var(--cor-bordo);border-color:var(--cor-ouro)}
+.noite #enviar:hover{background:var(--cor-brilho);border-color:var(--cor-ouro)}
+.lugar-intro{text-align:center;color:var(--texto-suave);margin:0 auto var(--esp-7)}
+.form{display:grid;gap:var(--esp-5)}
+.campo{position:relative}
+.campo label{display:block;font:400 12px/1.4 var(--f-sans);letter-spacing:.3em;text-transform:uppercase;color:var(--cor-ouro);margin-bottom:6px}
+.campo .entrada{position:relative}
+.campo input{width:100%;height:var(--campo-altura);background:transparent;border:0;border-radius:0;color:var(--texto);font:300 18px/1.2 var(--f-sans);
+  letter-spacing:.01em;padding:0 36px 0 0;-webkit-appearance:none;appearance:none}
+.campo input::placeholder{color:#8f8a84}
+.campo input:focus{outline:none}
+.campo input:focus-visible{outline:2px solid var(--foco);outline-offset:3px}
+.campo .sub{position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--campo-linha)}
+.campo .sub::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--cor-ouro);transform:scaleX(0);transition:transform 200ms var(--ease-saida)}
+.campo input:focus~.sub::after{transform:scaleX(1)}
+.campo .check{position:absolute;right:4px;top:50%;width:18px;height:18px;margin-top:-9px;color:var(--cor-ouro);opacity:0;transition:opacity var(--dur-micro)}
+.campo.ok .check{opacity:1}
+.campo.invalido .sub{background:var(--erro)}
+.dica{font-size:14px;color:var(--texto-suave);margin:8px 0 0}
+.erro{display:flex;gap:10px;align-items:flex-start;margin:10px 0 0;padding-left:12px;border-left:2px solid var(--erro);color:var(--erro);font-size:15px;line-height:1.5}
+.erro svg{flex:none;width:16px;height:16px;margin-top:3px}
+.sugestao{margin:8px 0 0}
+.sugestao button{background:none;border:0;padding:0;min-height:44px;color:var(--texto);font:400 15px/1.4 var(--f-sans);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.honey{position:absolute!important;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.resumo{padding:var(--esp-4) var(--esp-5);border:1px solid var(--erro);color:var(--texto)}
+.resumo p{margin:0 0 6px;color:var(--erro);font-weight:500}
+.resumo ul{margin:0;padding-left:18px}
+.resumo a{color:var(--texto);display:inline-flex;min-height:32px;align-items:center}
+.lgpd{font-size:14px;line-height:1.6;color:var(--texto-suave);margin:var(--esp-2) 0 0}
+.lgpd .link-texto{color:var(--texto);min-height:0;display:inline}
+.banner{padding:var(--esp-4) var(--esp-5);border:1px solid var(--erro);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.banner p{margin:0;color:var(--texto);font-size:15px}
+.form-envio{display:flex;flex-direction:column;align-items:stretch;gap:14px}
+.form-envio .botao{width:100%}
+.form-envio .botao[aria-disabled="true"]{cursor:progress;opacity:.85}
+.form-idade{font-size:14px;color:var(--texto-suave);text-align:center;margin:0}
+.sucesso{text-align:center}
+.sucesso h3{font:italic 400 clamp(30px,3.6vw,44px)/1.2 var(--f-serif);color:var(--texto);margin:0 0 var(--esp-5)}
+.sucesso h3:focus{outline:none}
+.sucesso h3:focus-visible{outline:2px solid var(--foco);outline-offset:6px}
+.sucesso .texto{color:var(--texto-suave);max-width:52ch;margin:0 auto var(--esp-6)}
+.sucesso-acoes{display:grid;gap:12px;max-width:440px;margin:0 auto}
+.sucesso-acoes .botao,.sucesso-acoes .botao-linha{width:100%}
+.mapas-alt{display:flex;justify-content:center;gap:24px;font-size:14px}
+.mapas-alt a{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-suave);text-underline-offset:4px}
+.lembrete{margin:var(--esp-6) auto 0;max-width:46ch}
+.lembrete .advertencia{display:block;margin-bottom:6px}
+.encerrado{text-align:center;font:italic 400 clamp(24px,2.6vw,32px)/1.35 var(--f-serif);max-width:30ch;margin:0 auto}
+
+.rodape{border-top:1px solid var(--linha-ouro);padding-block:var(--esp-9) calc(var(--moldura) + var(--esp-8))}
+.rodape .lockup{justify-content:center}
+.rodape .lockup .wm-mh,.rodape .lockup .wm-ki{color:var(--cor-papel)}
+.rodape .lockup-sep{background:rgba(204,173,123,.6)}
+.rodape .wm-ki-kanji{color:var(--cor-papel)}
+.rod-adv{font:500 13px/1.8 var(--f-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--cor-papel);max-width:68ch;margin:var(--esp-7) auto var(--esp-6);text-align:center}
+.rod-linhas{text-align:center;color:var(--texto-suave);font-size:15px;max-width:64ch;margin:0 auto}
+.rod-linhas p{margin:0 0 8px}
+.rod-links{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 18px;margin:var(--esp-5) 0;font-size:14px;color:var(--texto-suave)}
+.rod-links .link-texto{color:var(--texto)}
+.demo{font-size:12px;color:var(--texto-suave);text-align:center;margin:var(--esp-6) 0 0;letter-spacing:.04em}
+
+/* ---------- barra móvel ---------- */
+.barra-movel{position:fixed;z-index:var(--z-barra);left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--cor-noite);color:var(--cor-papel);border-top:1px solid var(--linha-ouro);
+  transform:translateY(110%);transition:transform 250ms var(--ease-saida)}
+.barra-movel.ativa{transform:none}
+.barra-movel span{font:400 11px/1.4 var(--f-sans);letter-spacing:.22em;text-transform:uppercase}
+.barra-movel .botao{min-height:44px;padding:0 16px;font-size:11px;letter-spacing:.18em;border-color:rgba(204,173,123,.6);flex:none}
+@media (min-width:768px){.barra-movel{display:none}}
+html.preview .barra-movel{display:none}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;z-index:120;left:50%;bottom:calc(var(--moldura) + 72px);transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--cor-noite);color:var(--cor-papel);padding:12px 20px;font:400 12px/1 var(--f-sans);letter-spacing:.24em;text-transform:uppercase;
+  transition:opacity var(--dur-micro),transform var(--dur-micro) var(--ease-saida)}
+.toast.ativo{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- diálogos ---------- */
+dialog{border:0;padding:0;background:transparent;color:var(--cor-noite);max-width:none;max-height:none}
+dialog::backdrop{background:rgba(241,239,235,.96)}
+.gate{width:min(440px,calc(100vw - 48px))}
+.gate-cartao{background-color:var(--cor-creme);background-image:var(--fibras),var(--washi);border:1px solid var(--cor-noite);padding:40px 32px 32px;text-align:center}
+.gate .lockup{margin-bottom:var(--esp-6)}
+.gate .lockup .wm-mh{font-size:40px}
+.gate .lockup .wm-ki{font-size:15px}
+.gate .lockup{flex-direction:column;gap:16px}
+.gate .lockup-sep{width:40px;height:1px}
+.gate .wm-ki-kanji{color:var(--cor-vermelho);font-size:1.25em}
+.gate h2{font:italic 400 26px/1.25 var(--f-serif);margin:0 0 var(--esp-3)}
+.gate p{margin:0 0 var(--esp-3);font-size:16px}
+.gate .pergunta{font:500 13px/1.5 var(--f-sans);letter-spacing:.18em;text-transform:uppercase;margin:var(--esp-5) 0 var(--esp-4)}
+.gate-botoes{display:grid;gap:10px}
+.gate-botoes button{min-height:52px;width:100%}
+.gate .advertencia{margin:var(--esp-5) 0 var(--esp-2);color:var(--cor-noite)}
+.gate .menor{font-size:14px;color:var(--cor-grafite);margin:0}
+.gate .botao{--acento:#5E0027;--acento-hover:#3D0327;--texto-botao:#F1EFEB}
+.gate .botao-linha{--linha:#0D0D0D;--texto:#0D0D0D;--fundo:#F1EFEB}
+.privacidade{width:min(560px,calc(100vw - 32px))}
+.priv-cartao{background:var(--cor-creme);border:1px solid var(--cor-noite);padding:36px 28px 28px;max-height:calc(100vh - 48px);overflow:auto}
+.priv-cartao h2{font:italic 400 30px/1.2 var(--f-serif);margin:0 0 var(--esp-5)}
+.priv-cartao dl{margin:0 0 var(--esp-5)}
+.priv-cartao dt{font:400 11px/1.6 var(--f-sans);letter-spacing:.3em;text-transform:uppercase;color:var(--cor-grafite);margin-top:var(--esp-4)}
+.priv-cartao dd{margin:2px 0 0;font-size:16px}
+.priv-cartao .botao-linha{--linha:#0D0D0D;--texto:#0D0D0D;--fundo:#F1EFEB}
+html.gate-ativo body{overflow:hidden}
+
+@media (prefers-reduced-motion: reduce){
+  html.js .revelar{transition-duration:200ms}
+  html.js .pincel-mascara,html.js .pincel-mascara>svg{transition:none;transform:none}
+  html.js .enso-traco{transition:opacity 200ms;transform:none}
+  html.js .balcao{transform:none}
+  html.js .lugar-moldura i{transition:none;transform:none}
+  .barra-movel,.toast,.campo .sub::after{transition-duration:1ms}
+}
+</style>
+</head>
+<body>
+<div class="faixa-demo" role="note" style="position:relative;z-index:50;background:#0b0b0b;color:#d9c39a;font:500 11px/1.5 Jost,system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:9px 16px;border-bottom:1px solid rgba(217,195,154,.35)">Conceito demonstrativo · evento fictício · o formulário não envia nem guarda dados</div>
+<noscript>
+  <div style="position:relative;z-index:300;max-width:440px;margin:96px auto;padding:32px;border:1px solid #0D0D0D;background:#F7F5EF;text-align:center;font-family:Jost,system-ui,sans-serif">
+    <p style="font:italic 400 24px/1.3 'Cormorant Garamond',Georgia,serif;margin:0 0 12px">Este convite apresenta bebidas alcoólicas.</p>
+    <p>Para continuar, confirme que você tem 18 anos ou mais.</p>
+    <p><a href="#convite">Tenho 18 anos ou mais</a></p>
+    <p style="font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase">A VENDA E O CONSUMO DE BEBIDA ALCOÓLICA SÃO PROIBIDOS PARA MENORES. BEBA COM MODERAÇÃO.</p>
+  </div>
+</noscript>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="seco-v" x="-20%" y="-2%" width="140%" height="104%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06 0.9" numOctaves="2" seed="7" result="ruido"/>
+      <feDisplacementMap in="SourceGraphic" in2="ruido" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="seco-h" x="-2%" y="-20%" width="104%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9 0.06" numOctaves="2" seed="11" result="ruido"/>
+      <feDisplacementMap in="SourceGraphic" in2="ruido" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="seco-enso" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="ruido"/>
+      <feDisplacementMap in="SourceGraphic" in2="ruido" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="borda"/>
+    </filter>
+    <symbol id="traco-v" viewBox="0 0 80 600">
+      <path fill="currentColor" d="M22 12C23 4 50 2 57 9C61 60 58 160 55 260C52 360 47 440 43 520C42 550 40.5 575 39.5 594C37.5 576 35.5 550 33.5 520C29 440 25 360 23 260C20.5 160 19.5 60 22 12Z"/>
+      <path fill="currentColor" d="M50 430C49 485 47.4 535 45.6 588C47.4 536 49.4 486 51.6 430Z"/>
+      <path fill="currentColor" d="M27.2 450C29 505 30.8 548 32.6 590C31.6 548 29.6 505 26 450Z"/>
+      <path fill="currentColor" d="M44.6 470C44 520 43 556 42 598C43.6 556 45 520 46 470Z"/>
+    </symbol>
+    <symbol id="traco-h" viewBox="0 0 600 60">
+      <path fill="currentColor" d="M9 30C7 20 15 14 29 14C110 13 220 16 330 19C420 21 490 24 548 27C566 28 580 29 592 30.5C580 31.5 560 33 540 34C470 37 400 38 320 40C220 42 120 45 40 46C20 46 11 40 9 30Z"/>
+      <path fill="currentColor" d="M462 23C505 24 545 25.2 586 27C546 26.6 506 25.6 462 24.6Z"/>
+      <path fill="currentColor" d="M452 37.8C498 36.8 540 35.3 580 33.6C541 35.9 500 37.8 452 39.2Z"/>
+      <path fill="currentColor" d="M490 31C530 31 566 31.2 598 31.6C566 32 530 32.3 490 32.4Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="moldura m-t" aria-hidden="true"></div>
+<div class="moldura m-b" aria-hidden="true"></div>
+<div class="moldura m-l" aria-hidden="true"></div>
+<div class="moldura m-r" aria-hidden="true"></div>
+<div class="moldura-linha" aria-hidden="true"></div>
+<span class="margem-rotulo esq" aria-hidden="true">Sexta · 16 · 10 · 2026</span>
+<span class="margem-rotulo dir" aria-hidden="true">Rua Jacques Félix, 405</span>
+
+<div id="pagina">
+<a class="skip" href="#lugar" id="skip">Pular para o formulário</a>
+
+<section id="convite" aria-labelledby="titulo-noite">
+  <header id="cabecalho" class="cabecalho" style="margin-inline:var(--moldura)">
+    <div class="lockup" aria-label="Moët Hennessy e Kinoshita" role="group">
+      <span class="wm-mh" role="img" aria-label="Moët Hennessy">Moët Hennessy</span>
+      <span class="lockup-sep" aria-hidden="true"></span>
+      <span class="wm-ki" role="img" aria-label="Kinoshita"><span class="wm-ki-nome">Kinoshita</span><span class="wm-ki-kanji" lang="ja" aria-hidden="true">木下</span></span>
+    </div>
+    <a class="link lugar-link" href="#lugar" data-cta>Solicitar meu lugar</a>
+  </header>
+
+  <div class="hero" style="margin-inline:var(--moldura)">
+    <div class="hero-ornamento" aria-hidden="true">
+      <div class="pincel hero-pincel"><div class="pincel-mascara vertical"><svg viewBox="0 0 80 600" preserveAspectRatio="none" filter="url(#seco-v)"><use href="#traco-v"/></svg></div></div>
+      <span class="hero-kanji revelar" lang="ja">木下</span>
+    </div>
+    <p class="hero-kicker revelar">MOËT HENNESSY NO KINOSHITA</p>
+    <h1 id="titulo-noite" class="revelar">
+      <span class="titulo-linha"><span class="palavra"><span>Sob a</span><span>Árvore</span></span></span><span class="sr">. </span>
+      <span class="headline"><span class="hl">Oito tempos. Oito Maisons.</span> <span class="hl">Uma única noite no Kinoshita.</span></span>
+    </h1>
+    <p class="subheadline revelar">Um jantar de cozinha kappo harmonizado com champagnes e vinhos das Maisons Moët Hennessy, conduzido pelo sommelier João Perrone.</p>
+    <p class="dados revelar"><time class="grupo" datetime="2026-10-16T20:00-03:00">SEXTA <span class="ponto" aria-hidden="true">·</span> 16 <span class="ponto" aria-hidden="true">·</span> OUTUBRO <span class="ponto" aria-hidden="true">·</span> 2026 <span class="ponto" aria-hidden="true">·</span> 20H</time> <span class="ponto sep-grupo" aria-hidden="true">·</span> <span class="grupo">VILA NOVA CONCEIÇÃO, SÃO PAULO</span></p>
+    <p class="selo revelar" id="selo" hidden></p>
+    <div class="acoes-hero revelar">
+      <a class="botao" href="#lugar" data-cta id="cta-hero">Solicitar meu lugar</a>
+      <a class="link" href="#menu">Ver o menu</a>
+    </div>
+    <p class="nota-hero revelar">Lugares limitados. A confirmação segue a ordem das solicitações.</p>
+  </div>
+  <div class="hero-base" style="margin-inline:var(--moldura)"><p class="advertencia">BEBA COM MODERAÇÃO.</p></div>
+</section>
+
+<main id="conteudo">
+<section id="experiencia" class="secao quadro" aria-labelledby="h-exp">
+  <div class="conteiner">
+    <div class="balcao" aria-hidden="true"></div>
+    <div class="secao-cabeca revelar">
+      <p class="kicker">A experiência</p>
+      <h2 class="h2" id="h-exp">UMA NOITE EM OITO TEMPOS</h2>
+      <div class="pincel pincel-h" aria-hidden="true"><div class="pincel-mascara horizontal"><svg viewBox="0 0 600 60" preserveAspectRatio="none" filter="url(#seco-h)"><use href="#traco-h"/></svg></div></div>
+    </div>
+    <p class="editorial revelar">Na cozinha kappo, o preparo acontece diante de quem está à mesa. É assim que a noite começa, às 20h, com um omakasê em oito tempos pensado para a primavera.</p>
+    <div class="exp-texto revelar">
+      <p>Cada tempo chega com o rótulo de uma Maison diferente do portfólio Moët Hennessy. O sommelier João Perrone apresenta cada um: de onde vem, como foi feito e por que encontra aquele prato.</p>
+      <p>A sequência segue uma lógica simples. Primeiro, tensão e mineralidade para os crus. Depois, champagnes de longa maturação para o peixe, o arroz e a fritura. Um tinto de Mendoza para o wagyu na brasa. Por fim, um cognac em dose pequena ao lado da sobremesa.</p>
+    </div>
+    <ul class="destaques revelar">
+      <li><strong>Cozinha kappo.</strong><p>Preparo e finalização diante do convidado, com ingredientes da estação.</p></li>
+      <li><strong>Oito Maisons.</strong><p>Ruinart, Château d’Esclans, Dom Pérignon, Krug, Moët &amp; Chandon, Cheval des Andes, Veuve Clicquot e Hennessy.</p></li>
+      <li><strong>Um anfitrião à mesa.</strong><p>João Perrone conduz a harmonização do primeiro ao último tempo.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section id="menu" class="secao quadro" aria-labelledby="h-menu">
+  <div class="conteiner">
+    <div class="secao-cabeca revelar">
+      <p class="kicker">O menu</p>
+      <h2 class="h2" id="h-menu">OITO TEMPOS, OITO TAÇAS</h2>
+    </div>
+    <p class="editorial menu-intro revelar">Um omakasê kappo da primavera, com as notas do sommelier João Perrone para cada harmonização.</p>
+    <ol class="tempos" id="tempos"></ol>
+    <div class="menu-rodape revelar">
+      <p>Menu sujeito a alterações, de acordo com a sazonalidade dos ingredientes. Hennessy X.O servido em dose pequena. Restrições alimentares podem ser informadas na resposta ao e-mail de confirmação.</p>
+      <p class="advertencia">BEBA COM MODERAÇÃO. ESTE PRODUTO É DESTINADO A ADULTOS.</p>
+    </div>
+  </div>
+</section>
+
+<section id="anfitriao" class="secao quadro" aria-labelledby="h-anf">
+  <div class="conteiner">
+    <div class="balcao" aria-hidden="true"></div>
+    <div class="anfitriao-grade com-retrato">
+      <div class="pincel anf-pincel" aria-hidden="true"><div class="pincel-mascara vertical"><svg viewBox="0 0 80 600" preserveAspectRatio="none" filter="url(#seco-v)"><use href="#traco-v"/></svg></div></div>
+      <figure class="anf-retrato revelar">
+        <img src="../assets/joao-perrone-720.jpg" width="576" height="720" loading="lazy" decoding="async" alt="Retrato de João Perrone, sommelier e anfitrião da noite, apresentando uma garrafa de Dom Pérignon">
+      </figure>
+      <div class="anf-col">
+      <div class="revelar">
+        <p class="kicker">O anfitrião</p>
+        <h2 class="h2" id="h-anf">JOÃO PERRONE</h2>
+        <p class="rotulo anf-rotulo">SOMMELIER E ANFITRIÃO DA NOITE · MOËT HENNESSY DO BRASIL</p>
+      </div>
+      <div class="anf-texto revelar">
+        <p>João Perrone recebe os convidados e conduz a harmonização do primeiro ao último tempo. A cada prato, apresenta o rótulo servido: a Maison, a região, o modo de fazer e a razão daquele encontro com a cozinha do Kinoshita.</p>
+      </div>
+      <p class="editorial revelar" style="margin-top:var(--esp-6)">É a ele que a mesa pode perguntar o que quiser saber sobre cada taça.</p>
+      <p class="assinatura revelar" aria-hidden="true">João Perrone</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kinoshita" class="secao quadro" aria-labelledby="h-kin">
+  <div class="conteiner">
+    <div class="balcao" aria-hidden="true"></div>
+    <div class="kin-grade">
+      <figure class="enso" style="margin:0 auto">
+        <svg viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+          <g class="enso-traco">
+            <g id="enso-tinta" filter="url(#seco-enso)" fill="#0D0D0D" fill-opacity=".85"></g>
+            <circle cx="227.8" cy="42.4" r="5.5" fill="#E13837"/>
+          </g>
+        </svg>
+        <blockquote class="revelar">
+          <p>“Um diálogo direto entre mestre e convidado.”</p>
+          <footer>Kinoshita</footer>
+        </blockquote>
+      </figure>
+      <div class="kin-texto revelar">
+        <p class="kicker">O restaurante</p>
+        <h2 class="h2" id="h-kin">KINOSHITA · <span lang="ja">木下</span>,<br> SOB A ÁRVORE</h2>
+        <p class="rotulo">KAPPO · VILA NOVA CONCEIÇÃO</p>
+        <p>O Kinoshita nasceu no fim dos anos 1970, na Liberdade, pelas mãos do imigrante Toshio Kinoshita. Em 2008, chegou à Vila Nova Conceição, num projeto do arquiteto Naoki Otake: vidro, madeira e um balcão em volta da cozinha aberta.</p>
+        <p>A cozinha é kappo, expressão japonesa para cortar e cozinhar. O preparo acontece diante do convidado, e o cardápio muda com a estação. A casa descreve o balcão como “um diálogo direto entre mestre e convidado”.</p>
+        <p>Desde 2008, o Kinoshita é Embaixada Krug, com uma Krug Room própria, e hoje é uma das duas Embaixadas Krug no Brasil. Em outubro de 2026, a casa apresentou uma nova carta de vinhos em parceria com a Moët Hennessy.</p>
+      </div>
+    </div>
+    <ul class="fatos revelar">
+      <li><span class="num">Anos 1970</span><span class="rotulo">FUNDAÇÃO, NA LIBERDADE</span></li>
+      <li><span class="num">2008</span><span class="rotulo">EMBAIXADA KRUG</span></li>
+      <li><span class="num">2026</span><span class="rotulo">1 ESTRELA NO GUIA MICHELIN</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="maisons" class="secao quadro" aria-labelledby="h-mai">
+  <div class="conteiner">
+    <div class="secao-cabeca revelar">
+      <p class="kicker">As Maisons</p>
+      <h2 class="h2" id="h-mai">MOËT HENNESSY. A ARTE DE RECEBER.</h2>
+    </div>
+    <div class="mai-texto revelar">
+      <p>A Moët Hennessy reúne 29 Maisons de vinhos e destilados, muitas delas centenárias. Cada uma guarda um ofício próprio, e todas partilham a mesma cultura de excelência.</p>
+      <p>Para esta mesa, oito delas. Ruinart e a pureza da Chardonnay. Château d’Esclans e o rosé da Provence. Dom Pérignon e o tempo dos <span lang="fr">millésimes</span>. Krug e a arte do <span lang="fr">assemblage</span>. Moët &amp; Chandon, que celebra desde 1743. Cheval des Andes, de Mendoza. Veuve Clicquot e a <span lang="fr">La Grande Dame</span>. Hennessy, de Cognac.</p>
+      <p class="fecho">Herança e inovação, autenticidade e criatividade: é nesse encontro que a Moët Hennessy define suas Maisons. Numa noite como esta, ele cabe num prato e numa taça.</p>
+    </div>
+    <ul class="cartoes" id="cartoes" aria-label="As oito Maisons da noite">
+      <li class="cartao revelar" data-comp="coluna" data-seed="11"><span class="cartao-num" aria-hidden="true">1</span><div class="cartao-txt"><h3>Ruinart</h3><span class="origem">Tempo 1 · Reims</span></div></li>
+      <li class="cartao revelar" data-comp="nuvem" data-seed="23"><span class="cartao-num" aria-hidden="true">2</span><div class="cartao-txt"><h3>Château d’Esclans</h3><span class="origem">Tempo 2 · Provence</span></div></li>
+      <li class="cartao revelar" data-comp="diagonal" data-seed="37"><span class="cartao-num" aria-hidden="true">3</span><div class="cartao-txt"><h3>Dom Pérignon</h3><span class="origem">Tempo 3 · Champagne</span></div></li>
+      <li class="cartao revelar" data-comp="trama" data-seed="41"><span class="cartao-num" aria-hidden="true">4</span><div class="cartao-txt"><h3>Krug</h3><span class="origem">Tempo 4 · Reims</span></div></li>
+      <li class="cartao revelar" data-comp="duas" data-seed="53"><span class="cartao-num" aria-hidden="true">5</span><div class="cartao-txt"><h3>Moët &amp; Chandon</h3><span class="origem">Tempo 5 · Épernay</span></div></li>
+      <li class="cartao revelar" data-comp="estratos" data-seed="67"><span class="cartao-num" aria-hidden="true">6</span><div class="cartao-txt"><h3>Cheval des Andes</h3><span class="origem">Tempo 6 · Mendoza</span></div></li>
+      <li class="cartao revelar" data-comp="arco" data-seed="71"><span class="cartao-num" aria-hidden="true">7</span><div class="cartao-txt"><h3>Veuve Clicquot</h3><span class="origem">Tempo 7 · Reims</span></div></li>
+      <li class="cartao revelar" data-comp="aneis" data-seed="83"><span class="cartao-num" aria-hidden="true">8</span><div class="cartao-txt"><h3>Hennessy</h3><span class="origem">Tempo 8 · Cognac</span></div></li>
+    </ul>
+    <p class="nota-pequena revelar">A Moët Hennessy apoia o consumo responsável e é embaixadora da associação Wine in Moderation.</p>
+  </div>
+</section>
+
+<section id="detalhes" class="secao quadro" aria-labelledby="h-det">
+  <div class="conteiner">
+    <div class="balcao" aria-hidden="true"></div>
+    <div class="secao-cabeca revelar">
+      <p class="kicker">Os detalhes</p>
+      <h2 class="h2" id="h-det">SEXTA, 16 DE OUTUBRO</h2>
+    </div>
+    <dl class="det-lista revelar">
+      <div><dt>Quando</dt><dd><time datetime="2026-10-16T20:00-03:00">Sexta, 16 de outubro de 2026, às 20h</time></dd></div>
+      <div><dt>Onde</dt><dd><address>Kinoshita · Rua Jacques Félix, 405, Vila Nova Conceição, São Paulo, SP, CEP 04509-001</address></dd></div>
+      <div><dt>Formato</dt><dd>Omakasê kappo em oito tempos, harmonizado com oito Maisons Moët Hennessy</dd></div>
+      <div><dt>Anfitrião</dt><dd>João Perrone, sommelier</dd></div>
+      <div><dt>Lugares</dt><dd>Limitados. A confirmação segue a ordem das solicitações.</dd></div>
+      <div><dt>Chegada</dt><dd>Há manobrista no local. Para a volta, sugerimos táxi, aplicativo ou motorista.</dd></div>
+      <div><dt>Idade</dt><dd>Evento exclusivo para maiores de 18 anos.</dd></div>
+    </dl>
+    <div class="det-acoes revelar">
+      <a class="botao-linha" href="../convite.ics" download>Adicionar à agenda</a>
+      <a class="botao-linha" href="https://www.google.com/maps/search/?api=1&amp;query=Kinoshita%2C%20Rua%20Jacques%20F%C3%A9lix%2C%20405%2C%20S%C3%A3o%20Paulo" target="_blank" rel="noopener">Como chegar<span class="sr"> (abre em nova aba)</span></a>
+      <button class="botao-linha" type="button" data-copiar>Copiar endereço</button>
+    </div>
+    <p class="mapas-linha revelar" id="mapas-linha">Também em <a href="https://maps.apple.com/?q=Kinoshita&amp;address=Rua%20Jacques%20F%C3%A9lix%2C%20405%2C%20S%C3%A3o%20Paulo" target="_blank" rel="noopener">Apple Mapas<span class="sr"> (abre em nova aba)</span></a> <span aria-hidden="true">·</span> <a href="https://waze.com/ul?q=Rua%20Jacques%20F%C3%A9lix%20405%20S%C3%A3o%20Paulo&amp;navigate=yes" target="_blank" rel="noopener">Waze<span class="sr"> (abre em nova aba)</span></a></p>
+    <p class="advertencia det-adv revelar">SE FOR DIRIGIR NÃO BEBA.</p>
+  </div>
+</section>
+</main>
+
+<div class="noite">
+<section id="lugar" class="secao quadro" aria-labelledby="h-lugar" tabindex="-1">
+  <canvas class="perlage" id="perlage" aria-hidden="true"></canvas>
+  <div class="lugar-moldura" aria-hidden="true"><i class="lm-t"></i><i class="lm-r"></i><i class="lm-b"></i><i class="lm-l"></i></div>
+  <div class="lugar-caixa">
+    <div class="secao-cabeca revelar">
+      <p class="kicker">Seu lugar à mesa</p>
+      <h2 class="h2" id="h-lugar">SOLICITE SEU LUGAR</h2>
+    </div>
+    <div id="lugar-corpo">
+      <p class="lugar-intro" id="lugar-intro">Três campos, menos de um minuto. A confirmação chega por e-mail.</p>
+      <form class="form" id="form-lugar" novalidate action="#" method="post">
+        <div class="resumo" id="resumo" role="alert" tabindex="-1" hidden></div>
+        <div class="campo" data-campo="nome">
+          <label for="lugar-nome">Nome completo</label>
+          <div class="entrada">
+            <input id="lugar-nome" name="nome" type="text" required minlength="3" maxlength="120" autocomplete="name" autocapitalize="words" spellcheck="false" enterkeyhint="next" placeholder="Nome e sobrenome">
+            <span class="sub" aria-hidden="true"></span>
+            <svg class="check" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9.5l4 4L15 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <p class="erro" id="lugar-nome-erro" hidden></p>
+        </div>
+        <div class="campo" data-campo="email">
+          <label for="lugar-email">E-mail</label>
+          <div class="entrada">
+            <input id="lugar-email" name="email" type="email" required maxlength="160" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" placeholder="voce@email.com" aria-describedby="lugar-email-dica">
+            <span class="sub" aria-hidden="true"></span>
+            <svg class="check" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9.5l4 4L15 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <p class="dica" id="lugar-email-dica">É para lá que enviamos a confirmação.</p>
+          <p class="sugestao" id="lugar-email-sugestao" hidden><button type="button"></button></p>
+          <p class="erro" id="lugar-email-erro" hidden></p>
+        </div>
+        <div class="campo" data-campo="telefone">
+          <label for="lugar-telefone">Telefone com DDD</label>
+          <div class="entrada">
+            <input id="lugar-telefone" name="telefone" type="tel" required inputmode="tel" maxlength="19" autocomplete="tel" enterkeyhint="send" placeholder="(11) 98765-4321" aria-describedby="lugar-telefone-dica">
+            <span class="sub" aria-hidden="true"></span>
+            <svg class="check" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9.5l4 4L15 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <p class="dica" id="lugar-telefone-dica">Só para falar sobre a noite, se for preciso.</p>
+          <p class="erro" id="lugar-telefone-erro" hidden></p>
+        </div>
+        <div class="honey" aria-hidden="true">
+          <label for="lugar-empresa">Empresa</label>
+          <input id="lugar-empresa" name="empresa" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" name="origem" value="/">
+        <p class="lgpd">Ao solicitar seu lugar, você autoriza o uso do seu nome, e-mail e telefone apenas para confirmar sua presença e falar com você sobre o jantar de 16 de outubro de 2026. Os dados não são compartilhados fora da organização do evento e são apagados em até 30 dias após o jantar. Você pode pedir acesso, correção ou exclusão a qualquer momento. <button type="button" class="link-texto" data-privacidade>Política de privacidade</button></p>
+        <div class="banner" id="banner" role="alert" hidden><p id="banner-texto"></p><button type="button" class="botao-linha" id="banner-tentar">Tentar novamente</button></div>
+        <div class="form-envio">
+          <button class="botao" type="submit" id="enviar">Solicitar meu lugar</button>
+          <p class="form-idade">Evento exclusivo para maiores de 18 anos.</p>
+        </div>
+      </form>
+    </div>
+    <div class="sucesso" id="sucesso" aria-live="polite" hidden>
+      <h3 id="sucesso-titulo" tabindex="-1"></h3>
+      <p class="texto" id="sucesso-texto"></p>
+      <div class="sucesso-acoes">
+        <a class="botao" href="../convite.ics" download>Adicionar à agenda</a>
+        <a class="botao-linha" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Sob%20a%20%C3%81rvore%20%C2%B7%20Kinoshita&amp;dates=20261016T230000Z/20261017T023000Z&amp;location=Rua%20Jacques%20F%C3%A9lix%2C%20405%2C%20Vila%20Nova%20Concei%C3%A7%C3%A3o%2C%20S%C3%A3o%20Paulo&amp;details=Sommelier%20e%20anfitri%C3%A3o%3A%20Jo%C3%A3o%20Perrone" target="_blank" rel="noopener">Google Agenda<span class="sr"> (abre em nova aba)</span></a>
+        <a class="botao-linha" href="https://www.google.com/maps/search/?api=1&amp;query=Kinoshita%2C%20Rua%20Jacques%20F%C3%A9lix%2C%20405%2C%20S%C3%A3o%20Paulo" target="_blank" rel="noopener">Como chegar<span class="sr"> (abre em nova aba)</span></a>
+        <div class="mapas-alt" id="mapas-alt">
+          <a href="https://maps.apple.com/?q=Kinoshita&amp;address=Rua%20Jacques%20F%C3%A9lix%2C%20405%2C%20S%C3%A3o%20Paulo" target="_blank" rel="noopener">Apple Mapas<span class="sr"> (abre em nova aba)</span></a>
+          <a href="https://waze.com/ul?q=Rua%20Jacques%20F%C3%A9lix%20405%20S%C3%A3o%20Paulo&amp;navigate=yes" target="_blank" rel="noopener">Waze<span class="sr"> (abre em nova aba)</span></a>
+        </div>
+        <button class="botao-linha" type="button" data-copiar>Copiar endereço</button>
+      </div>
+      <p class="lembrete"><span class="advertencia">SE FOR DIRIGIR NÃO BEBA.</span> Para voltar, prefira táxi, aplicativo ou motorista.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="rodape" class="rodape quadro">
+  <div class="conteiner">
+    <div class="lockup">
+      <span class="wm-mh" role="img" aria-label="Moët Hennessy">Moët Hennessy</span>
+      <span class="lockup-sep" aria-hidden="true"></span>
+      <span class="wm-ki" role="img" aria-label="Kinoshita"><span class="wm-ki-nome">Kinoshita</span><span class="wm-ki-kanji" lang="ja" aria-hidden="true">木下</span></span>
+    </div>
+    <p class="rod-adv">BEBA COM MODERAÇÃO. ESTE PRODUTO É DESTINADO A ADULTOS. SE FOR DIRIGIR NÃO BEBA. A VENDA E O CONSUMO DE BEBIDA ALCOÓLICA SÃO PROIBIDOS PARA MENORES.</p>
+    <div class="rod-linhas">
+      <p>A Moët Hennessy apoia o consumo responsável e é embaixadora da associação Wine in Moderation.</p>
+      <p>Curadoria e harmonização: João Perrone, Moët Hennessy do Brasil.</p>
+      <p>Cozinha do Kinoshita. Rua Jacques Félix, 405, Vila Nova Conceição, São Paulo, SP, CEP 04509-001.</p>
+    </div>
+    <div class="rod-links">
+      <button type="button" class="link-texto" data-privacidade>Política de privacidade</button>
+      <span aria-hidden="true">·</span>
+      <span>Por favor, não compartilhe este convite com menores de 18 anos.</span>
+    </div>
+    <p class="demo">Conceito criado para demonstração. Retrato do anfitrião gerado com IA.</p>
+  </div>
+</footer>
+</div>
+</div>
+
+<div class="barra-movel" id="barra-movel" aria-hidden="true">
+  <span>16 · 10 · 20h · Kinoshita</span>
+  <a class="botao" href="#lugar" tabindex="-1" data-cta>Solicitar meu lugar</a>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog class="gate" id="gate" aria-labelledby="gate-titulo" aria-describedby="gate-texto">
+  <div class="gate-cartao">
+    <div class="lockup">
+      <span class="wm-mh" role="img" aria-label="Moët Hennessy">Moët Hennessy</span>
+      <span class="lockup-sep" aria-hidden="true"></span>
+      <span class="wm-ki" role="img" aria-label="Kinoshita"><span class="wm-ki-nome">Kinoshita</span><span class="wm-ki-kanji" lang="ja" aria-hidden="true">木下</span></span>
+    </div>
+    <div id="gate-pergunta">
+      <h2 id="gate-titulo">Este convite apresenta bebidas alcoólicas.</h2>
+      <p id="gate-texto">Para continuar, confirme que você tem 18 anos ou mais.</p>
+      <p class="pergunta">Você tem 18 anos ou mais?</p>
+      <div class="gate-botoes">
+        <button type="button" class="botao" id="gate-sim">Sim, tenho 18 anos ou mais</button>
+        <button type="button" class="botao-linha" id="gate-nao">Não</button>
+      </div>
+    </div>
+    <p id="gate-despedida" hidden tabindex="-1" style="font:italic 400 24px/1.35 var(--f-serif)">Agradecemos a visita. Este convite é exclusivo para maiores de 18 anos.</p>
+    <p class="advertencia">A VENDA E O CONSUMO DE BEBIDA ALCOÓLICA SÃO PROIBIDOS PARA MENORES. BEBA COM MODERAÇÃO.</p>
+    <p class="menor">Por favor, não compartilhe este convite com menores de 18 anos.</p>
+  </div>
+</dialog>
+
+<dialog class="privacidade" id="privacidade" aria-labelledby="priv-titulo">
+  <div class="priv-cartao">
+    <h2 id="priv-titulo">Como usamos seus dados</h2>
+    <dl>
+      <dt>Quem trata</dt><dd>A organização do jantar de 16 de outubro de 2026.</dd>
+      <dt>Quais dados</dt><dd>Nome, e-mail e telefone. A resposta da confirmação de idade não é guardada.</dd>
+      <dt>Para quê</dt><dd>Confirmar sua presença e falar com você sobre este jantar. Nada além disso.</dd>
+      <dt>Por quanto tempo</dt><dd>Os dados são apagados em até 30 dias após o jantar.</dd>
+      <dt>Compartilhamento</dt><dd>Somente com a organização do evento.</dd>
+      <dt>Seus direitos</dt><dd>Acesso, correção, exclusão e revogação da autorização, de forma gratuita, respondendo ao e-mail de confirmação.</dd>
+    </dl>
+    <button type="button" class="botao-linha" id="priv-fechar">Fechar</button>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+  var html = document.documentElement;
+  var Q = new URLSearchParams(location.search);
+  var PREVIEW = Q.get('preview') === '1';
+  var REDUZ = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var pagina = $('#pagina');
+  var ENDERECO = 'Kinoshita, Rua Jacques Félix, 405, Vila Nova Conceição, São Paulo, SP, 04509-001';
+
+  /* altura estável do hero (evita esticar em capturas) */
+  var larguraHero = 0;
+  function fixarHero() { if (innerWidth !== larguraHero) { larguraHero = innerWidth; html.style.setProperty('--hero-h', innerHeight + 'px'); } }
+  fixarHero(); window.addEventListener('resize', fixarHero);
+
+  /* ---------- menu ---------- */
+  var TEMPOS = [
+    ['先付', 'Sakizuke', 'abertura', 'Vieira crua, ponzu de limão cravo e ikura.', 'Lâminas finas de vieira, ponzu cítrico, ovas de salmão e brotos da estação.', 'Ruinart', '<span lang="fr">Blanc de Blancs</span>', 'Chardonnay pura, de acidez cítrica e mineralidade de giz. Espelha o iodo e a doçura da vieira, e a perlage fina limpa o ponzu sem apagar a delicadeza do marisco.'],
+    ['八寸', 'Hassun', 'travessa da estação', 'Travessa da primavera.', 'Aspargo verde com goma ae de gergelim, palmito pupunha grelhado com missô branco, tamagoyaki de dashi e morango com shira ae de tofu.', 'Château d’Esclans', 'Whispering Angel, Côtes de Provence', 'Rosé seco e leve, de fruta vermelha delicada. Conversa com o morango e equilibra o missô e o gergelim sem disputar a atenção da travessa.'],
+    ['お造り', 'Otsukuri', 'sashimi', 'Olhete e barriga de atum.', 'Cortes generosos, wasabi fresco ralado na hora e shoyu envelhecido.', 'Dom Pérignon', 'Vintage', 'Chardonnay e Pinot Noir com longa maturação sobre as leveduras. As notas tostadas e de caldo se somam à gordura do atum, e a acidez precisa renova o paladar a cada fatia.'],
+    ['握り', 'Nigiri', 'sequência do balcão', 'Nigiri da estação.', 'Robalo com sal e sudachi, lula com ouriço, camarão levemente maçaricado e vieira com raspas de yuzu, sobre arroz temperado com vinagre de arroz vermelho.', 'Krug', 'Grande Cuvée', 'Assemblage de muitos vinhos de reserva, com longa permanência sobre as borras. Tem estrutura para o arroz avinagrado e profundidade para o umami do peixe. É a Maison da casa: o Kinoshita é Embaixada Krug desde 2008.'],
+    ['揚物', 'Agemono', 'fritura', 'Tempurá de camarão e flor de abobrinha.', 'Massa leve e crocante, flor recheada com tofu, sal de matchá e limão.', 'Moët &amp; Chandon', 'Grand Vintage', 'Champagne safrado de dosagem baixa, fruta madura e frescor vivo. A efervescência e a acidez atravessam a fritura, e as notas tostadas ecoam a massa dourada.'],
+    ['焼物', 'Yakimono', 'grelhado', 'Wagyu na brasa de binchotan.', 'Wagyu marmorizado no carvão japonês, tare suave de shoyu e missô, aspargo verde e pimenta <i class="jp" lang="ja-Latn">sanshō</i>.', 'Cheval des Andes', 'Mendoza', 'Corte de Cabernet Sauvignon e Malbec, de taninos finos e fruta negra. A gordura do wagyu arredonda os taninos, e o tare, preparado menos salgado, encontra as especiarias do vinho. É o único tinto da noite.'],
+    ['食事', 'Shokuji', 'arroz, sopa e conservas', 'Arroz de donabe com ervilha torta e ikura.', 'Cozido na panela de barro com palmito pupunha e ovas de salmão, com missoshiru e tsukemono da casa.', 'Veuve Clicquot', 'La Grande Dame', 'Cuvée de prestígio com predominância de Pinot Noir. A textura abraça o arroz, a acidez dá brilho à ikura e ao missô e, depois do tinto, devolve leveza à mesa.'],
+    ['水菓子', 'Mizugashi', 'sobremesa', 'Warabimochi com kuromitsu e manga.', 'Melado escuro de açúcar mascavo japonês, gergelim preto tostado e manga do início da estação.', 'Hennessy', 'X.O, em dose pequena', 'Frutas secas, especiarias e cacau ecoam o kuromitsu e o gergelim tostado, e a manga traz frescor ao contraste. Servido em dose pequena, para encerrar a noite.']
+  ];
+  $('#tempos').innerHTML = TEMPOS.map(function (t, i) {
+    var n = i + 1;
+    return '<li class="tempo revelar" style="transition-delay:' + (i % 4) * 80 + 'ms">' +
+      '<span class="tempo-kanji" lang="ja" aria-hidden="true">' + t[0] + '</span>' +
+      '<p class="tempo-num" aria-hidden="true">' + n + '</p>' +
+      '<h3><span class="sr">Tempo ' + n + ': </span><i lang="ja-Latn">' + t[1] + '</i>' + t[2] + '</h3>' +
+      '<p class="prato">' + t[3] + '</p>' +
+      '<p class="prato-desc">' + t[4] + '</p>' +
+      '<div class="harmonia"><span class="maison">' + t[5] + '</span><span class="rotulo-vinho">' + t[6] + '</span>' +
+      '<div class="nota"><details><summary><span class="mais" aria-hidden="true"></span>Nota do sommelier</summary><p>' + t[7] + '</p></details></div></div>' +
+      '</li>';
+  }).join('');
+
+  /* ---------- ensō: traço que afina, do ponto vermelho à borda seca ---------- */
+  (function () {
+    var g = $('#enso-tinta'); if (!g) return;
+    var C = 200, R0 = 160, A0 = -80, VARRE = 328, N = 140, ext = [], int = [];
+    function larg(t) { return 7.2 * (1 - 0.82 * Math.pow(t, 1.25)) + 0.35 * Math.sin(t * 19); }
+    function raio(t) { return R0 + 2.4 * Math.sin(t * 5.1 + 0.6); }
+    for (var i = 0; i <= N; i++) {
+      var t = i / N, a = (A0 + VARRE * t) * Math.PI / 180, r = raio(t), w = larg(t) / 2;
+      ext.push((C + Math.cos(a) * (r + w)).toFixed(1) + ' ' + (C + Math.sin(a) * (r + w)).toFixed(1));
+      int.unshift((C + Math.cos(a) * (r - w)).toFixed(1) + ' ' + (C + Math.sin(a) * (r - w)).toFixed(1));
+    }
+    var d = '<path d="M' + ext.join('L') + 'L' + int.join('L') + 'Z"/>';
+    [[-2.6, 0.72, 1.04, 0.7], [2.2, 0.78, 1.02, 0.6], [0.4, 0.9, 1.06, 0.5]].forEach(function (f) {
+      var p = [], q = [];
+      for (var k = 0; k <= 40; k++) {
+        var tt = f[1] + (f[2] - f[1]) * k / 40, aa = (A0 + VARRE * tt) * Math.PI / 180, rr = raio(Math.min(tt, 1)) + f[0], ww = f[3] * (1 - k / 44) / 2;
+        p.push((C + Math.cos(aa) * (rr + ww)).toFixed(1) + ' ' + (C + Math.sin(aa) * (rr + ww)).toFixed(1));
+        q.unshift((C + Math.cos(aa) * (rr - ww)).toFixed(1) + ' ' + (C + Math.sin(aa) * (rr - ww)).toFixed(1));
+      }
+      d += '<path d="M' + p.join('L') + 'L' + q.join('L') + 'Z"/>';
+    });
+    g.innerHTML = d;
+  })();
+
+  /* ---------- pincel do hero termina antes da linha do título ---------- */
+  function ajustarPincel() {
+    var p = $('.hero-pincel'), l = $('.titulo-linha'), h = $('.hero');
+    if (!p || !l || !h) return;
+    if (innerWidth < 768) { p.style.height = ''; return; }
+    var hr = h.getBoundingClientRect(), lr = l.getBoundingClientRect();
+    p.style.height = Math.max(80, Math.round(lr.top + lr.height / 2 - hr.top - 30)) + 'px';
+  }
+  ajustarPincel(); window.addEventListener('resize', ajustarPincel);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustarPincel);
+
+  /* ---------- cartões das Maisons (composições de perlage em ouro) ---------- */
+  (function () {
+    function rng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; var t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    var P = 'rgba(243,230,200,', O = 'rgba(204,173,123,';
+    function bolha(x, y, r, a) { return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r.toFixed(2) + '" fill="none" stroke="' + P + a.toFixed(2) + ')" stroke-width=".6"/>'; }
+    var comps = {
+      coluna: function (R) { var s = ''; for (var i = 0; i < 46; i++) { var y = 200 - i * 4.3 - R() * 3; s += bolha(118 + (R() - .5) * (4 + i * .12), y, .5 + R() * .9 + (1 - y / 200) * .8, .35 + (y / 200) * .45); } return s; },
+      nuvem: function (R) { var s = ''; for (var i = 0; i < 16; i++) { var r = 6 + R() * 26; s += '<circle cx="' + (20 + R() * 160).toFixed(1) + '" cy="' + (90 + R() * 110).toFixed(1) + '" r="' + r.toFixed(1) + '" fill="' + P + '.04)" stroke="' + P + '.26)" stroke-width=".6"/>'; } return s; },
+      diagonal: function (R) { var s = ''; for (var i = 0; i < 60; i++) { var t = R(); s += bolha(30 + t * 150 + (R() - .5) * 14, 195 - t * 175 + (R() - .5) * 14, .5 + R() * 1.8, .25 + R() * .5); } return s; },
+      trama: function (R) { var s = ''; for (var y = 0; y < 13; y++) for (var x = 0; x < 13; x++) { if (R() < .55) continue; s += bolha(10 + x * 15 + (R() - .5) * 6, 10 + y * 15 + (R() - .5) * 6, .5 + R() * 1.4, .2 + (y / 13) * .5); } return s; },
+      duas: function (R) { var s = ''; [72, 136].forEach(function (cx, k) { for (var i = 0; i < 28; i++) { var y = 200 - i * 7 - R() * 4 - k * 20; s += bolha(cx + (R() - .5) * (3 + i * .2), y, .5 + R() * 1.3, .3 + R() * .45); } }); return s; },
+      estratos: function (R) { var s = '', y = 70; while (y < 200) { var x0 = R() * 60, x1 = 120 + R() * 80; s += '<path d="M' + x0.toFixed(1) + ' ' + y.toFixed(1) + 'Q' + ((x0 + x1) / 2).toFixed(1) + ' ' + (y + (R() - .5) * 8).toFixed(1) + ' ' + x1.toFixed(1) + ' ' + y.toFixed(1) + '" fill="none" stroke="' + O + (.25 + R() * .35).toFixed(2) + ')" stroke-width=".7"/>'; y += 5 + R() * 11; } return s; },
+      arco: function (R) { var s = ''; for (var i = 0; i < 54; i++) { var a = Math.PI * (1.05 + R() * .9), rr = 78 + (R() - .5) * 12; s += bolha(100 + Math.cos(a) * rr, 190 + Math.sin(a) * rr, .5 + R() * 1.6, .25 + R() * .5); } for (var j = 0; j < 10; j++) s += bolha(80 + R() * 40, 40 + R() * 60, .5 + R(), .3); return s; },
+      aneis: function (R) { var s = '', r = 14; while (r < 300) { s += '<circle cx="172" cy="188" r="' + r.toFixed(1) + '" fill="none" stroke="' + O + (.18 + R() * .3).toFixed(2) + ')" stroke-width="' + (.5 + R() * .7).toFixed(2) + '"/>'; r += 6 + R() * 14; } return s; }
+    };
+    $$('.cartao').forEach(function (c) {
+      var f = comps[c.getAttribute('data-comp')]; if (!f) return;
+      var R = rng(+c.getAttribute('data-seed') || 1);
+      c.insertAdjacentHTML('afterbegin', '<svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">' + f(R) + '</svg>');
+    });
+  })();
+
+  /* ---------- data, selo e janela de solicitações ---------- */
+  var agora = new Date();
+  var FECHA = Date.parse('2026-10-16T18:00:00-03:00');
+  var ACABOU = Date.parse('2026-10-16T23:30:00-03:00');
+  var diaSP = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(agora);
+  var seloTxt = { '2026-10-14': 'Depois de amanhã', '2026-10-15': 'Amanhã' }[diaSP] || (diaSP === '2026-10-16' && agora.getTime() < FECHA ? 'Hoje à noite' : '');
+  if (seloTxt) { $('#selo').textContent = seloTxt; $('#selo').hidden = false; }
+  if (agora.getTime() >= FECHA) {
+    var msg = agora.getTime() >= ACABOU ? 'Este jantar já aconteceu. Obrigado a todos que estiveram à mesa.' : 'As solicitações para este jantar estão encerradas.';
+    $('#lugar-corpo').innerHTML = '<p class="encerrado">' + msg + '</p>';
+  }
+
+  /* ---------- revelações ---------- */
+  var revelaveis = $$('.revelar');
+  if (PREVIEW || !('IntersectionObserver' in window)) {
+    revelaveis.forEach(function (el) { el.classList.add('visivel'); });
+    $$('.pincel, .enso, .anfitriao-grade, .lugar-moldura').forEach(function (el) { el.classList.add('tracado'); });
+  } else {
+    var ioRev = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        if (e.target.closest('#convite') && !html.classList.contains('entrou')) return;
+        e.target.classList.add('visivel'); ioRev.unobserve(e.target);
+      });
+    }, { threshold: 0.2 });
+    revelaveis.forEach(function (el) { ioRev.observe(el); });
+    var ioTraco = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        if (e.target.closest('#convite') && !html.classList.contains('entrou')) return;
+        e.target.classList.add('tracado'); ioTraco.unobserve(e.target);
+      });
+    }, { threshold: 0.3 });
+    $$('.pincel, .enso, .lugar-moldura').forEach(function (el) { ioTraco.observe(el); });
+  }
+  function entrarHero() {
+    html.classList.add('entrou');
+    var hero = $$('#convite .revelar');
+    hero.forEach(function (el, i) { el.style.transitionDelay = (REDUZ ? 0 : 200 + i * 80) + 'ms'; el.classList.add('visivel'); });
+    var p = $('.hero-pincel'); if (p) p.classList.add('tracado');
+  }
+
+  /* ---------- linha de balcão ligada à rolagem ---------- */
+  var balcoes = $$('.balcao');
+  var agendado = false;
+  function atualizarBalcoes() {
+    agendado = false;
+    var vh = innerHeight;
+    balcoes.forEach(function (b) {
+      var top = b.getBoundingClientRect().top;
+      var p = Math.min(1, Math.max(0, (vh - top) / (vh * 0.55)));
+      b.style.transform = 'scaleX(' + p.toFixed(3) + ')';
+    });
+  }
+  if (!PREVIEW && !REDUZ) {
+    window.addEventListener('scroll', function () { if (!agendado) { agendado = true; requestAnimationFrame(atualizarBalcoes); } }, { passive: true });
+    atualizarBalcoes();
+  }
+
+  /* ---------- confirmação de idade ---------- */
+  var gate = $('#gate');
+  function liberar(focar) {
+    pagina.removeAttribute('inert');
+    html.classList.remove('gate-ativo');
+    entrarHero();
+    if (focar) { var s = $('#skip'); s.focus({ preventScroll: true }); }
+  }
+  if (html.classList.contains('gate-ativo')) {
+    pagina.setAttribute('inert', '');
+    gate.addEventListener('cancel', function (e) { e.preventDefault(); });
+    var negar = function () {
+      $('#gate-pergunta').hidden = true; $('#gate-despedida').hidden = false; $('#gate-despedida').focus();
+    };
+    try { gate.showModal(); } catch (e) { gate.setAttribute('open', ''); }
+    if (html.classList.contains('gate-negado')) negar(); else $('#gate-sim').focus();
+    $('#gate-sim').addEventListener('click', function () {
+      try { sessionStorage.setItem('idade-ok', '1'); } catch (e) {}
+      gate.style.transition = 'opacity 300ms ease'; gate.style.opacity = '0';
+      setTimeout(function () { gate.close(); liberar(true); }, REDUZ ? 0 : 300);
+    });
+    $('#gate-nao').addEventListener('click', function () {
+      try { sessionStorage.setItem('idade-ok', '0'); } catch (e) {}
+      negar();
+    });
+  } else {
+    entrarHero();
+  }
+
+  /* ---------- privacidade ---------- */
+  var priv = $('#privacidade'); var origemPriv = null;
+  $$('[data-privacidade]').forEach(function (b) { b.addEventListener('click', function () { origemPriv = b; priv.showModal(); $('#priv-fechar').focus(); }); });
+  $('#priv-fechar').addEventListener('click', function () { priv.close(); });
+  priv.addEventListener('close', function () { if (origemPriv) origemPriv.focus(); });
+  priv.addEventListener('click', function (e) { if (e.target === priv) priv.close(); });
+
+  /* ---------- copiar endereço ---------- */
+  var toast = $('#toast'), tToast;
+  function avisar(t) { toast.textContent = t; toast.classList.add('ativo'); clearTimeout(tToast); tToast = setTimeout(function () { toast.classList.remove('ativo'); }, 2500); }
+  function copiar() {
+    var ok = function () { avisar('Endereço copiado'); };
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(ENDERECO).then(ok, fallback); } else fallback();
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = ENDERECO; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} document.body.removeChild(ta);
+    }
+  }
+  $$('[data-copiar]').forEach(function (b) { b.addEventListener('click', copiar); });
+
+  /* ---------- barra móvel ---------- */
+  var barra = $('#barra-movel'), heroVis = true, fimVis = false, enviado = false;
+  function atualizarBarra() {
+    var ativa = !heroVis && !fimVis && !enviado;
+    barra.classList.toggle('ativa', ativa);
+    barra.setAttribute('aria-hidden', ativa ? 'false' : 'true');
+    barra.querySelector('a').tabIndex = ativa ? 0 : -1;
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) { heroVis = e[0].isIntersecting; atualizarBarra(); }, { threshold: 0.05 }).observe($('#convite'));
+    var visiveis = new Set();
+    var ioFim = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) { if (e.isIntersecting) visiveis.add(e.target); else visiveis.delete(e.target); });
+      fimVis = visiveis.size > 0; atualizarBarra();
+    }, { threshold: 0 });
+    ioFim.observe($('#lugar')); ioFim.observe($('#rodape'));
+  }
+
+  /* ---------- perlage (só na faixa noite) ---------- */
+  (function () {
+    var cv = $('#perlage'); if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d'), bolhas = [], w = 0, h = 0, dpr = Math.min(2, window.devicePixelRatio || 1), rodando = false, visivel = false, ult = 0, raf = 0;
+    function medir() {
+      var r = cv.getBoundingClientRect(); w = r.width; h = r.height;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = w < 768 ? 25 : 40;
+      bolhas = [];
+      for (var i = 0; i < n; i++) bolhas.push(nova(true));
+      desenhar();
+    }
+    function nova(qualquer) {
+      var lado = Math.random() < 0.5 ? Math.random() * 0.3 : 0.7 + Math.random() * 0.3;
+      return { x: lado * w, y: qualquer ? Math.random() * h : h + 10, r: 0.6 + Math.random() * 1.8, v: 12 + Math.random() * 16,
+        a: 0.18 + Math.random() * 0.45, f: Math.random() * 6.28, amp: 2 + Math.random() * 4 };
+    }
+    function desenhar() {
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < bolhas.length; i++) {
+        var b = bolhas[i], fade = Math.min(1, b.y / (h * 0.6));
+        ctx.beginPath(); ctx.arc(b.x + Math.sin(b.f) * b.amp, b.y, b.r, 0, 6.2832);
+        ctx.strokeStyle = 'rgba(204,173,123,' + (b.a * fade).toFixed(3) + ')'; ctx.lineWidth = 0.8; ctx.stroke();
+        ctx.fillStyle = 'rgba(243,230,200,' + (b.a * fade * 0.35).toFixed(3) + ')'; ctx.fill();
+      }
+    }
+    function passo(t) {
+      if (!rodando) return;
+      var dt = Math.min(0.05, (t - (ult || t)) / 1000); ult = t;
+      for (var i = 0; i < bolhas.length; i++) { var b = bolhas[i]; b.y -= b.v * dt; b.f += dt * 1.4; if (b.y < -10) bolhas[i] = nova(false); }
+      desenhar(); raf = requestAnimationFrame(passo);
+    }
+    function decidir() {
+      var deve = visivel && !document.hidden && !REDUZ;
+      if (deve && !rodando) { rodando = true; ult = 0; raf = requestAnimationFrame(passo); }
+      else if (!deve && rodando) { rodando = false; cancelAnimationFrame(raf); }
+    }
+    medir();
+    var lw = innerWidth; window.addEventListener('resize', function () { if (innerWidth !== lw) { lw = innerWidth; medir(); } });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { visivel = e[0].isIntersecting; decidir(); }).observe(cv);
+    document.addEventListener('visibilitychange', decidir);
+  })();
+
+  /* ---------- formulário ---------- */
+  var form = $('#form-lugar'); if (!form) return;
+  var campos = { nome: $('#lugar-nome'), email: $('#lugar-email'), telefone: $('#lugar-telefone') };
+  var ROTULOS = { nome: 'Nome completo', email: 'E-mail', telefone: 'Telefone com DDD' };
+  var MSG = {
+    nomeVazio: 'Informe seu nome, para recebermos você à mesa.',
+    nomeUma: 'Inclua também o sobrenome.',
+    email: 'Confira o e-mail: parece faltar o @ ou o domínio.',
+    telefone: 'Confira o telefone com DDD, por exemplo (11) 98765-4321.'
+  };
+  var ICONE = '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 4.2v4.8M8 10.8v1.2" stroke="currentColor" stroke-width="1.5"/></svg>';
+  var tocado = {};
+
+  function so(d) { return String(d || '').replace(/\D/g, ''); }
+  function normTel(v) { var d = so(v); if ((d.length === 12 || d.length === 13) && d.indexOf('55') === 0) d = d.slice(2); return d; }
+  function fmtTel(d) {
+    d = d.slice(0, 11);
+    if (!d) return '';
+    if (d.length <= 2) return '(' + d;
+    var r = d.slice(2);
+    if (r.length <= 4) return '(' + d.slice(0, 2) + ') ' + r;
+    if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + r.slice(0, 4) + '-' + r.slice(4);
+    return '(' + d.slice(0, 2) + ') ' + r.slice(0, 5) + '-' + r.slice(5);
+  }
+  function limparNome(v) { return String(v || '').trim().replace(/\s+/g, ' '); }
+
+  function validar(nome) {
+    var v = campos[nome].value;
+    if (nome === 'nome') {
+      var n = limparNome(v);
+      if (n.length < 3) return MSG.nomeVazio;
+      if (n.split(' ').length < 2) return MSG.nomeUma;
+      return '';
+    }
+    if (nome === 'email') {
+      var e = v.trim().toLowerCase();
+      return (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e) && e.length <= 160) ? '' : MSG.email;
+    }
+    var d = normTel(v);
+    if (d.length !== 10 && d.length !== 11) return MSG.telefone;
+    if (d.length === 11 && d[2] !== '9') return MSG.telefone;
+    return '';
+  }
+  function descrever(nome) {
+    var ids = [];
+    if ($('#lugar-' + nome + '-dica')) ids.push('lugar-' + nome + '-dica');
+    if (!$('#lugar-' + nome + '-erro').hidden) ids.push('lugar-' + nome + '-erro');
+    if (ids.length) campos[nome].setAttribute('aria-describedby', ids.join(' ')); else campos[nome].removeAttribute('aria-describedby');
+  }
+  function mostrar(nome, msg) {
+    var el = $('#lugar-' + nome + '-erro'), caixa = campos[nome].closest('.campo');
+    if (msg) {
+      el.innerHTML = ICONE + '<span>' + msg + '</span>'; el.hidden = false;
+      campos[nome].setAttribute('aria-invalid', 'true'); caixa.classList.add('invalido'); caixa.classList.remove('ok');
+    } else {
+      var tinhaErro = !el.hidden;
+      el.hidden = true; el.innerHTML = '';
+      campos[nome].removeAttribute('aria-invalid'); caixa.classList.remove('invalido');
+      caixa.classList.toggle('ok', tinhaErro || caixa.classList.contains('ok'));
+    }
+    descrever(nome);
+  }
+  function checar(nome) { var m = validar(nome); mostrar(nome, m); return m; }
+
+  /* sugestão de domínio */
+  var DOMINIOS = { 'gmial.com': 'gmail.com', 'gmai.com': 'gmail.com', 'gmail.con': 'gmail.com', 'gmail.co': 'gmail.com', 'gnail.com': 'gmail.com',
+    'hotmial.com': 'hotmail.com', 'hotmail.con': 'hotmail.com', 'hotmal.com': 'hotmail.com', 'outlok.com': 'outlook.com', 'outlook.con': 'outlook.com', 'yahoo.con': 'yahoo.com' };
+  var sug = $('#lugar-email-sugestao'), sugBtn = sug.querySelector('button');
+  function sugerir() {
+    var e = campos.email.value.trim().toLowerCase(), at = e.lastIndexOf('@');
+    var dom = at > 0 ? e.slice(at + 1) : '', certo = DOMINIOS[dom];
+    if (certo) { var s = e.slice(0, at + 1) + certo; sugBtn.textContent = 'Você quis dizer ' + s + '?'; sugBtn.dataset.valor = s; sug.hidden = false; }
+    else sug.hidden = true;
+  }
+  sugBtn.addEventListener('click', function () { campos.email.value = sugBtn.dataset.valor; sug.hidden = true; tocado.email = true; checar('email'); campos.email.focus(); });
+
+  /* máscara do telefone, preservando o cursor */
+  var tel = campos.telefone, telAnterior = '';
+  tel.addEventListener('input', function (ev) {
+    var v = tel.value, pos = tel.selectionStart == null ? v.length : tel.selectionStart;
+    var antes = so(v.slice(0, pos)).length, d = so(v);
+    if (ev.inputType === 'deleteContentBackward' && d === telAnterior && antes > 0) { d = d.slice(0, antes - 1) + d.slice(antes); antes -= 1; }
+    if ((d.length === 12 || d.length === 13) && d.indexOf('55') === 0) { d = d.slice(2); antes = Math.max(0, antes - 2); }
+    d = d.slice(0, 11);
+    var f = fmtTel(d); tel.value = f; telAnterior = d;
+    var p = 0, cont = 0;
+    if (antes === 0) p = f.indexOf('(') === 0 && antes === 0 ? (d.length ? 1 : 0) : 0;
+    else { for (p = 0; p < f.length; p++) { if (/\d/.test(f[p])) cont++; if (cont === antes) { p++; break; } } }
+    try { if (document.activeElement === tel) tel.setSelectionRange(p, p); } catch (e) {}
+  });
+
+  Object.keys(campos).forEach(function (nome) {
+    var c = campos[nome];
+    c.addEventListener('blur', function () { if (c.readOnly) return; if (c.value.trim() || tocado[nome]) { tocado[nome] = true; checar(nome); } if (nome === 'email') sugerir(); });
+    c.addEventListener('input', function () { if (tocado[nome] && (c.closest('.campo').classList.contains('invalido') || c.closest('.campo').classList.contains('ok'))) checar(nome); if (nome === 'email' && !sug.hidden) sugerir(); });
+  });
+
+  var resumo = $('#resumo'), banner = $('#banner'), btn = $('#enviar'), enviando = false;
+  function mostrarResumo(lista) {
+    var n = lista.length;
+    resumo.innerHTML = '<p>' + (n === 1 ? 'Confira 1 campo antes de enviar.' : 'Confira ' + n + ' campos antes de enviar.') + '</p><ul>' +
+      lista.map(function (k) { return '<li><a href="#lugar-' + k + '">' + ROTULOS[k] + '</a></li>'; }).join('') + '</ul>';
+    resumo.hidden = false; resumo.focus();
+  }
+  resumo.addEventListener('click', function (e) { var a = e.target.closest('a'); if (!a) return; e.preventDefault(); var alvo = $(a.getAttribute('href')); alvo.focus(); });
+
+  function travar(sim) {
+    enviando = sim;
+    Object.keys(campos).forEach(function (k) { campos[k].readOnly = sim; });
+    if (sim) { btn.setAttribute('aria-disabled', 'true'); btn.textContent = 'Enviando sua solicitação…'; }
+    else { btn.removeAttribute('aria-disabled'); btn.textContent = 'Solicitar meu lugar'; }
+  }
+  function falha(tipo) {
+    $('#banner-texto').textContent = tipo === 'offline' ? 'Você parece estar sem conexão. Seus dados continuam aqui.' : 'Não conseguimos enviar agora. Seus dados continuam aqui; tente de novo em instantes.';
+    banner.hidden = false;
+  }
+  $('#banner-tentar').addEventListener('click', function () { enviar(); });
+
+  function sucesso(primeiro, email, duplicado) {
+    var tit = duplicado ? primeiro + ', sua solicitação já estava registrada.' : 'Solicitação recebida, ' + primeiro + '.';
+    $('#sucesso-titulo').textContent = tit;
+    $('#sucesso-texto').textContent = 'A confirmação do seu lugar chega em breve em ' + email + '. Até sexta, 16 de outubro, às 20h, no Kinoshita, Rua Jacques Félix, 405, Vila Nova Conceição.';
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) { var m = $('#mapas-alt'); m.insertBefore(m.lastElementChild, m.firstElementChild); m.insertBefore(m.lastElementChild, m.firstElementChild); }
+    enviado = true; atualizarBarra();
+    $$('[data-cta]').forEach(function (a) { a.textContent = 'Lugar solicitado'; a.setAttribute('href', '#lugar'); });
+  }
+  function mostrarSucesso(primeiro, email, duplicado, animar) {
+    sucesso(primeiro, email, duplicado);
+    var corpo = $('#lugar-corpo'), painel = $('#sucesso');
+    var trocar = function () { corpo.hidden = true; painel.hidden = false; if (animar) $('#sucesso-titulo').focus(); };
+    if (animar && !REDUZ) { corpo.style.transition = 'opacity 250ms ease'; corpo.style.opacity = '0'; setTimeout(trocar, 250); } else trocar();
+  }
+
+  function enviar() {
+    if (enviando) return;
+    banner.hidden = true;
+    var erros = [];
+    Object.keys(campos).forEach(function (k) { tocado[k] = true; if (checar(k)) erros.push(k); });
+    if (erros.length) { mostrarResumo(erros); return; }
+    resumo.hidden = true;
+    if (navigator.onLine === false) { falha('offline'); return; }
+    travar(true);
+    var nome = limparNome(campos.nome.value), email = campos.email.value.trim().toLowerCase(), telefone = normTel(campos.telefone.value);
+    var corpo = { nome: nome, email: email, telefone: telefone, empresa: $('#lugar-empresa').value, origem: '/' };
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var limite = setTimeout(function () { if (ctrl) ctrl.abort(); }, 12000);
+    var inicio = Date.now();
+    var espera = function (x) { return new Promise(function (r) { setTimeout(function () { r(x); }, Math.max(0, 600 - (Date.now() - inicio))); }); };
+    fetch('/api/rsvp', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(corpo), signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { s: r.status, j: j }; }); })
+      .then(espera)
+      .then(function (res) {
+        clearTimeout(limite); travar(false);
+        var j = res.j || {};
+        if ((res.s === 201 || res.s === 200) && j.ok) {
+          var primeiro = j.primeiroNome || nome.split(' ')[0];
+          try { localStorage.setItem('lugar-solicitado', JSON.stringify({ primeiroNome: primeiro, email: email, duplicado: !!j.duplicado })); } catch (e) {}
+          mostrarSucesso(primeiro, email, !!j.duplicado, true);
+        } else if (res.s === 422 && j.erros) {
+          var lista = [];
+          Object.keys(j.erros).forEach(function (k) {
+            if (!campos[k]) return; lista.push(k);
+            var m = k === 'nome' ? (validar('nome') || MSG.nomeVazio) : (MSG[k] || j.erros[k]);
+            mostrar(k, m);
+          });
+          if (lista.length) mostrarResumo(lista); else falha('rede');
+        } else falha('rede');
+      })
+      .catch(function () { espera().then(function () { clearTimeout(limite); travar(false); falha(navigator.onLine === false ? 'offline' : 'rede'); }); });
+  }
+  form.addEventListener('submit', function (e) { e.preventDefault(); enviar(); });
+
+  /* visita anterior com solicitação feita */
+  if (!PREVIEW) {
+    try {
+      var salvo = JSON.parse(localStorage.getItem('lugar-solicitado') || 'null');
+      if (salvo && salvo.primeiroNome && salvo.email) mostrarSucesso(salvo.primeiroNome, salvo.email, !!salvo.duplicado, false);
+    } catch (e) {}
+  }
+})();
+</script>
+</body>
+</html>

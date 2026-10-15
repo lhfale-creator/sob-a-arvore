@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Kinoshita Moet Hennessy//Jantar Harmonizado//PT
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:jantar-harmonizado-20261016@kinoshita-mh.local
+DTSTAMP:20261015T032533Z
+DTSTART:20261016T230000Z
+DTEND:20261017T023000Z
+SUMMARY:Jantar harmonizado Kinoshita e Moët Hennessy
+LOCATION:Kinoshita\, Rua Jacques Félix\, 405\, Vila Nova Conceição\, São Paulo\, SP\, 04509-001
+DESCRIPTION:Menu degustação harmonizado com champagnes e vinhos Moët Hennessy. Sommelier e anfitrião: João Perrone. Beba com moderação. Se for dirigir\, não beba.
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Jantar harmonizado Kinoshita e Moët Hennessy
+END:VALARM
+END:VEVENT
+END:VCALENDAR

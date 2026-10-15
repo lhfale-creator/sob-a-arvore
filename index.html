@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sob a Árvore · Conceito</title>
+<meta name="description" content="Conceito demonstrativo de landing page para um jantar harmonizado Moët Hennessy no Kinoshita. Evento fictício.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230c0b0a'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23c4282c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --sumi: #0c0b0a; --sumi-2: #171410; --washi: #f4f0e8; --champagne: #d9c39a; --linha: rgba(244,240,232,.16); --suave: #b7ad9c; --margem: clamp(16px, 4vw, 56px); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--sumi); color: var(--washi); font: 300 16px/1.6 'Jost', system-ui, sans-serif; }
+  .faixa-demo { background: #0b0b0b; color: var(--champagne); font: 500 11px/1.5 'Jost', system-ui, sans-serif; letter-spacing: .16em; text-transform: uppercase; text-align: center; padding: 9px 16px; border-bottom: 1px solid rgba(217,195,154,.35); }
+  header { padding: clamp(40px, 7vw, 88px) var(--margem) clamp(28px, 4vw, 48px); border-bottom: 1px solid var(--linha); }
+  .rotulo { font: 400 11px/1.4 'Jost'; letter-spacing: .32em; text-transform: uppercase; color: var(--champagne); }
+  h1 { font: 400 clamp(36px, 5.4vw, 76px)/1.02 'Cormorant Garamond', serif; margin: 14px 0 16px; }
+  h1 em { font-style: italic; color: var(--champagne); }
+  header p { max-width: 760px; color: var(--suave); margin: 0; }
+  .grade { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); padding: clamp(28px, 4vw, 56px) var(--margem) 72px; }
+  .card { border: 1px solid var(--linha); background: var(--sumi-2); display: flex; flex-direction: column; }
+  .card.vence { border-color: var(--champagne); box-shadow: 0 0 0 1px var(--champagne) inset; }
+  .tela { position: relative; aspect-ratio: 1440 / 1800; overflow: hidden; background: #000; }
+  .tela iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 1800px; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .info { padding: 20px 22px 24px; display: grid; gap: 10px; flex: 1; }
+  .info h2 { font: 500 26px/1.15 'Cormorant Garamond', serif; margin: 0; }
+  .info p { margin: 0; color: var(--suave); font-size: 15px; }
+  .acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; padding-top: 8px; }
+  .acoes a { color: var(--washi); text-decoration: none; border: 1px solid var(--champagne); padding: 13px 18px; font: 400 11px/1 'Jost'; letter-spacing: .24em; text-transform: uppercase; }
+  .acoes a:hover, .acoes a:focus-visible { background: var(--champagne); color: var(--sumi); }
+  footer { padding: 28px var(--margem) 40px; border-top: 1px solid var(--linha); color: var(--suave); font-size: 13px; display: grid; gap: 6px; }
+  footer strong { font-weight: 500; color: var(--washi); letter-spacing: .08em; }
+  @media (max-width: 980px) { .grade { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="faixa-demo" role="note">Conceito demonstrativo · evento fictício · o formulário não envia nem guarda dados</div>
+<header>
+  <p class="rotulo">Sob a Árvore · Moët Hennessy no Kinoshita</p>
+  <h1>Um jantar harmonizado, <em>do conceito à página.</em></h1>
+  <p>A prévia do conceito e as duas direções de arte finalistas. As duas foram construídas em paralelo por agentes de IA a partir do mesmo brief. O júri de marca, design e conversão escolheu a direção 2, Papel e Sumi.</p>
+</header>
+<main class="grade">
+  <article class="card">
+    <div class="tela"><iframe src="previa/" title="Prévia do conceito" loading="lazy" tabindex="-1"></iframe></div>
+    <div class="info">
+      <p class="rotulo">O ponto de partida</p>
+      <h2>Prévia do conceito</h2>
+      <p>O que a pesquisa encontrou, a identidade visual, as referências e o roteiro da página.</p>
+      <div class="acoes"><a href="previa/">Abrir a prévia</a></div>
+    </div>
+  </article>
+  <article class="card">
+    <div class="tela"><iframe src="a/?preview=1" title="Direção 1, Noite Bordô" loading="lazy" tabindex="-1"></iframe></div>
+    <div class="info">
+      <p class="rotulo">Direção 1</p>
+      <h2>Noite Bordô</h2>
+      <p>A página inteira é a Krug Room: escura, quente e íntima, com a perlage como única luz em movimento.</p>
+      <div class="acoes"><a href="a/">Abrir a página</a></div>
+    </div>
+  </article>
+  <article class="card vence">
+    <div class="tela"><iframe src="b/?preview=1" title="Direção 2, Papel e Sumi" loading="lazy" tabindex="-1"></iframe></div>
+    <div class="info">
+      <p class="rotulo">Direção 2 · escolhida pelo júri</p>
+      <h2>Papel e Sumi</h2>
+      <p>O caderno do mestre: papel washi, tinta sumi e a serifa francesa. Lapidada com o melhor das outras direções.</p>
+      <div class="acoes"><a href="b/">Abrir a página</a></div>
+    </div>
+  </article>
+</main>
+<footer>
+  <span><strong>BEBA COM MODERAÇÃO.</strong> Venda e consumo de bebidas alcoólicas proibidos para menores de 18 anos.</span>
+  <span>Curadoria e harmonização: João Perrone. Conceito criado para demonstração; retrato do anfitrião gerado com IA.</span>
+</footer>
+<script>
+  const ajustar = () => document.querySelectorAll('.tela').forEach((t) => { t.querySelector('iframe').style.transform = `scale(${t.clientWidth / 1440})`; });
+  addEventListener('resize', ajustar); ajustar();
+</script>
+</body>
+</html>
